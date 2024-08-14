@@ -1,0 +1,14 @@
+spring:
+
+  datasource:
+    username: sa
+    url: jdbc:h2:mem:grandmadb
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
