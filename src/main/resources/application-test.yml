@@ -1,14 +1,12 @@
 spring:
-
   datasource:
-    username: sa
-    url: jdbc:h2:mem:grandmadb
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/grandma_db
     password: password
+
   jpa:
     hibernate:
       ddl-auto: create
+      dialect: org.hibernate.dialect.H2Dialect
     show-sql: true
     defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always

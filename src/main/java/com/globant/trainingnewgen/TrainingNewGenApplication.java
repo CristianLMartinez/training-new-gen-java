@@ -1,4 +1,4 @@
-package com.datastructures.trainingnewgen;
+package com.globant.trainingnewgen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
