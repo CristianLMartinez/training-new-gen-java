@@ -6,4 +6,5 @@ public interface ClientService{
 
     ClientDto createClient(ClientDto clientDto);
 
+    ClientDto getClientByDocument(String document);
 }

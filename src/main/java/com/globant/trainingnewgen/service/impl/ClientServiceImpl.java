@@ -21,4 +21,12 @@ public class ClientServiceImpl implements ClientService {
         return ClientMapper.entityToDto(clientEntity);
     }
 
+
+    @Override
+    public ClientDto getClientByDocument(String document) {
+        var entity = clientRepository.getClientByDocument(document)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find user with document " + document));
+        return ClientMapper.entityToDto(entity);
+    }
+
 }

@@ -5,10 +5,7 @@ import com.globant.trainingnewgen.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/clients")
@@ -22,6 +19,11 @@ public class ClientController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(clientService.createClient(clientDto));
+    }
+
+    @GetMapping("{document}")
+    ResponseEntity<ClientDto> getClient(@PathVariable String document) {
+        return ResponseEntity.ok(clientService.getClientByDocument(document));
     }
 
 
