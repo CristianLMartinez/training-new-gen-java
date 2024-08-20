@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.infrastructure.exception;
+package com.globant.trainingnewgen.exception;
 
 public class ValidationException extends RuntimeException {
 

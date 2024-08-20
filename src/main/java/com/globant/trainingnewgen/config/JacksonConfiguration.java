@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.infrastructure;
+package com.globant.trainingnewgen.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

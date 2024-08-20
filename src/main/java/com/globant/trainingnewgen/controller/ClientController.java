@@ -1,7 +1,8 @@
 package com.globant.trainingnewgen.controller;
 
-import com.globant.trainingnewgen.domain.client.dto.ClientDto;
-import com.globant.trainingnewgen.domain.client.service.ClientService;
+import com.globant.trainingnewgen.dto.ClientDto;
+import com.globant.trainingnewgen.service.ClientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping
-    ResponseEntity<ClientDto> saveClient(@RequestBody ClientDto clientDto) {
+    ResponseEntity<ClientDto> saveClient(@RequestBody @Valid ClientDto clientDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(clientService.createClient(clientDto));
@@ -27,7 +28,7 @@ public class ClientController {
     }
 
     @PutMapping("{document}")
-    ResponseEntity updateClient(@PathVariable String document, @RequestBody ClientDto clientDto) {
+    ResponseEntity updateClient(@PathVariable String document, @RequestBody @Valid ClientDto clientDto) {
         clientService.updateClient(document, clientDto);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

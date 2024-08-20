@@ -1,7 +1,7 @@
-package com.globant.trainingnewgen.infrastructure.exception;
+package com.globant.trainingnewgen.exception;
 
 
-import com.globant.trainingnewgen.infrastructure.exception.enums.ExceptionCode;
+import com.globant.trainingnewgen.exception.enums.ExceptionCode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         logger.warn("Resource not found exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiError(
-                        ExceptionCode.USER_ALREADY_EXISTS,
+                        ExceptionCode.USER_ALREADY_EXISTS.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
                         ex.getClass().getName()));
@@ -34,10 +34,10 @@ public class GlobalExceptionHandler {
         logger.error("Entity conflict exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ApiError(
-                        ExceptionCode.NO_CHANGES,
+                        ExceptionCode.NO_CHANGES.getCode(),
                         LocalDateTime.now(),
                         "Conflict error",
-                        ex.getClass().getName()));
+                        ExceptionCode.NO_CHANGES.getDescription()));
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -45,10 +45,10 @@ public class GlobalExceptionHandler {
         logger.warn("Validation exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiError(
-                        ExceptionCode.USER_ALREADY_EXISTS,
+                        ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
-                        ex.getClass().getName()));
+                        ExceptionCode.COMBO_ALREADY_EXISTS.getDescription()));
     }
 
 
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
         logger.error("Something went wrong {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiError(
-                        ExceptionCode.USER_ALREADY_EXISTS,
+                        ExceptionCode.USER_ALREADY_EXISTS.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
                         ex.getClass().getName()

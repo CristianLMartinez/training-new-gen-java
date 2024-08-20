@@ -1,6 +1,6 @@
-package com.globant.trainingnewgen.domain.client.repository;
+package com.globant.trainingnewgen.repository;
 
-import com.globant.trainingnewgen.domain.client.Client;
+import com.globant.trainingnewgen.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

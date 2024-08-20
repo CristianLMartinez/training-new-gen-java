@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.domain.client;
+package com.globant.trainingnewgen.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

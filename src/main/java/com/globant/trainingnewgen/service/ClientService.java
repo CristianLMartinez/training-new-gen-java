@@ -1,6 +1,6 @@
-package com.globant.trainingnewgen.domain.client.service;
+package com.globant.trainingnewgen.service;
 
-import com.globant.trainingnewgen.domain.client.dto.ClientDto;
+import com.globant.trainingnewgen.dto.ClientDto;
 
 public interface ClientService{
 

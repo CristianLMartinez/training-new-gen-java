@@ -1,10 +1,10 @@
-package com.globant.trainingnewgen.domain.client.service.impl;
+package com.globant.trainingnewgen.service.impl;
 
-import com.globant.trainingnewgen.domain.client.dto.ClientDto;
-import com.globant.trainingnewgen.domain.client.service.ClientService;
-import com.globant.trainingnewgen.domain.client.mapper.ClientMapper;
-import com.globant.trainingnewgen.domain.client.repository.ClientRepository;
-import com.globant.trainingnewgen.infrastructure.exception.ResourceNotFoundException;
+import com.globant.trainingnewgen.dto.ClientDto;
+import com.globant.trainingnewgen.service.ClientService;
+import com.globant.trainingnewgen.mapper.ClientMapper;
+import com.globant.trainingnewgen.repository.ClientRepository;
+import com.globant.trainingnewgen.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
