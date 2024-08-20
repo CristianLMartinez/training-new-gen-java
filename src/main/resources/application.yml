@@ -1,5 +1,18 @@
 spring:
   profiles:
     active: test
+
   application:
     name: training-new-gen
+
+  jackson:
+    time-zone: America/Bogota
+    date-format: com.fasterxml.jackson.databind.util.StdDateFormat
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+

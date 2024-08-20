@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.controller;
 
-import com.globant.trainingnewgen.dto.ClientDto;
-import com.globant.trainingnewgen.service.ClientService;
+import com.globant.trainingnewgen.domain.client.dto.ClientDto;
+import com.globant.trainingnewgen.domain.client.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +26,22 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getClientByDocument(document));
     }
 
+    @PutMapping("{document}")
+    ResponseEntity updateClient(@PathVariable String document, @RequestBody ClientDto clientDto) {
+        clientService.updateClient(document, clientDto);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(null);
+    }
+
+
+    @DeleteMapping("{document}")
+    ResponseEntity deleteClientClient(@PathVariable String document) {
+        clientService.deleteClient(document);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .body(null);
+
+    }
 
 }

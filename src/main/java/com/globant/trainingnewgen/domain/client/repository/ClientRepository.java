@@ -1,6 +1,6 @@
-package com.globant.trainingnewgen.repository;
+package com.globant.trainingnewgen.domain.client.repository;
 
-import com.globant.trainingnewgen.model.Client;
+import com.globant.trainingnewgen.domain.client.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
     Optional<Client> getClientByDocument(String document);
+
+    void deleteByDocument(String document);
 
 }

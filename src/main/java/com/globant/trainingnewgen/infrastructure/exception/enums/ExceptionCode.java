@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.exception.enums;
+package com.globant.trainingnewgen.infrastructure.exception.enums;
 
 public enum ExceptionCode {
 

@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.dto;
+package com.globant.trainingnewgen.domain.client.dto;
 
 import lombok.Builder;
 
