@@ -14,7 +14,7 @@ public class JacksonConfiguration {
 
     @Bean
     public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
-        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+        ObjectMapper objectMapper = builder.createXmlMapper(true).build();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.setTimeZone(TimeZone.getTimeZone("America/Bogota"));

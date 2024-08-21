@@ -1,10 +1,10 @@
-package com.globant.trainingnewgen.service.impl;
+package com.globant.trainingnewgen.service.client.impl;
 
 import com.globant.trainingnewgen.dto.ClientDto;
-import com.globant.trainingnewgen.service.ClientService;
+import com.globant.trainingnewgen.exception.ResourceNotFoundException;
 import com.globant.trainingnewgen.mapper.ClientMapper;
 import com.globant.trainingnewgen.repository.ClientRepository;
-import com.globant.trainingnewgen.exception.ResourceNotFoundException;
+import com.globant.trainingnewgen.service.client.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
 
     @Override
-    public ClientDto createClient(ClientDto clientDto) {
+    public ClientDto create(ClientDto clientDto) {
         var clientEntity = clientRepository
                 .save(ClientMapper.dtoToEntity(clientDto));
 

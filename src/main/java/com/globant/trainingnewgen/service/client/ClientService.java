@@ -1,10 +1,10 @@
-package com.globant.trainingnewgen.service;
+package com.globant.trainingnewgen.service.client;
 
 import com.globant.trainingnewgen.dto.ClientDto;
 
 public interface ClientService{
 
-    ClientDto createClient(ClientDto clientDto);
+    ClientDto create(ClientDto clientDto);
 
     ClientDto getClientByDocument(String document);
 

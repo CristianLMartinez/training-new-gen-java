@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.controller;
 
 import com.globant.trainingnewgen.dto.ClientDto;
-import com.globant.trainingnewgen.service.ClientService;
+import com.globant.trainingnewgen.service.client.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class ClientController {
     ResponseEntity<ClientDto> saveClient(@RequestBody @Valid ClientDto clientDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(clientService.createClient(clientDto));
+                .body(clientService.create(clientDto));
     }
 
     @GetMapping("{document}")
