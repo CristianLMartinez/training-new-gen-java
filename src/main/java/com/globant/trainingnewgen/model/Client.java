@@ -6,12 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "clients")
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "clients", indexes = {
+        @Index(name = "index_document", columnList = "document"),
+        @Index(name = "index_email", columnList = "email")
+})
 public class Client  {
 
     @Id
@@ -27,10 +31,10 @@ public class Client  {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String phone;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String deliveryAddress;
 
 }

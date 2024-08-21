@@ -2,11 +2,12 @@ package com.globant.trainingnewgen.dto;
 
 import com.globant.trainingnewgen.model.ProductCategory;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-
+@Builder
 public record ProductDto(
         UUID uuid,
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    Optional<Client> getClientByDocument(String document);
+    Optional<Client> findClientByDocument(String document);
 
     void deleteByDocument(String document);
 

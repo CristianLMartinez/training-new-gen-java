@@ -25,14 +25,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto getClientByDocument(String document) {
-        var entity = clientRepository.getClientByDocument(document)
+        var entity = clientRepository.findClientByDocument(document)
                 .orElseThrow(() -> new IllegalArgumentException("Can't find user with document " + document));
         return ClientMapper.entityToDto(entity);
     }
 
     @Override
     public void updateClient(String document, ClientDto requestBody) {
-        clientRepository.getClientByDocument(document)
+        clientRepository.findClientByDocument(document)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Can't find user with document %s", document)));
 
         var entity = ClientMapper.dtoToEntity(requestBody);
@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteClient(String document) {
-        clientRepository.getClientByDocument(document)
+        clientRepository.findClientByDocument(document)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Can't find user with document %s", document)));
         clientRepository.deleteByDocument(document);
     }
