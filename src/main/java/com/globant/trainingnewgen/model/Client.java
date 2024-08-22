@@ -31,7 +31,7 @@ public class Client  {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 11)
     private String phone;
 
     @Column(nullable = false, length = 500)

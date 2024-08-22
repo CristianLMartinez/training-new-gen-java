@@ -1,6 +1,7 @@
 package com.globant.trainingnewgen.service.client.impl;
 
 import com.globant.trainingnewgen.dto.ClientDto;
+import com.globant.trainingnewgen.exception.EntityConflictException;
 import com.globant.trainingnewgen.exception.ResourceNotFoundException;
 import com.globant.trainingnewgen.mapper.ClientMapper;
 import com.globant.trainingnewgen.repository.ClientRepository;
@@ -16,6 +17,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto create(ClientDto clientDto) {
+
+        clientRepository.findClientByDocument(clientDto.document())
+                .ifPresent(client -> {
+                    throw new EntityConflictException(String.format("User with document %s already exists", clientDto.document()));
+                });
+
         var clientEntity = clientRepository
                 .save(ClientMapper.dtoToEntity(clientDto));
 

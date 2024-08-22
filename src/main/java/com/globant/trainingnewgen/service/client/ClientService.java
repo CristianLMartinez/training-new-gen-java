@@ -2,7 +2,7 @@ package com.globant.trainingnewgen.service.client;
 
 import com.globant.trainingnewgen.dto.ClientDto;
 
-public interface ClientService{
+public interface ClientService {
 
     ClientDto create(ClientDto clientDto);
 

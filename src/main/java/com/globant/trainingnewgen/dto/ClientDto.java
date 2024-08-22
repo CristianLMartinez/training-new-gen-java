@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
+import org.hibernate.validator.constraints.Length;
 
 @Builder
 public record ClientDto(
@@ -26,6 +27,7 @@ public record ClientDto(
         String phone,
 
         @NotBlank(message = "Address is mandatory")
+        @Length(min = 10, max = 500)
         String deliveryAddress
 ) {
 
