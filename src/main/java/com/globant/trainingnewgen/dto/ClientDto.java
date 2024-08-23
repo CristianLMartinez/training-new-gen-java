@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 public record ClientDto(
 
         @NotNull(message = "Document can't be null")
-        @ValidDocument
+        @Pattern(regexp = "^(CE|CC|TI|P)-[0-9]{1,17}$", message = "Incorrect document format")
         String document,
 
         @NotBlank(message = "Name is mandatory")

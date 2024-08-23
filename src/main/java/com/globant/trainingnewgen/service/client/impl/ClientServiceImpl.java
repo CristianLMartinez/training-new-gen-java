@@ -39,12 +39,31 @@ public class ClientServiceImpl implements ClientService {
         return ClientMapper.entityToDto(entity);
     }
 
+
     @Override
     public void updateClient(String document, ClientDto requestBody) {
-        // todo - validations for update
-        validateAndRetrieveClientByDocument(document);
-        var entity = ClientMapper.dtoToEntity(requestBody);
-        clientRepository.save(entity);
+        Client existingClient = clientRepository.findClientByDocument(document)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("Can't find user with document %s", document),
+                        ExceptionCode.CLIENT_NOT_FOUND));
+
+        if (!hasChanges(existingClient, requestBody)) {
+            throw new EntityConflictException("No fields were updated.", ExceptionCode.NO_CHANGES);
+        }
+
+        existingClient.setName(requestBody.name());
+        existingClient.setEmail(requestBody.email());
+        existingClient.setPhone(requestBody.phone());
+        existingClient.setDeliveryAddress(requestBody.deliveryAddress());
+
+        clientRepository.save(existingClient);
+    }
+
+    private boolean hasChanges(Client existingClient, ClientDto requestBody) {
+        return !existingClient.getName().equals(requestBody.name()) ||
+                !existingClient.getEmail().equals(requestBody.email()) ||
+                !existingClient.getPhone().equals(requestBody.phone()) ||
+                !existingClient.getDeliveryAddress().equals(requestBody.deliveryAddress());
     }
 
     @Override
@@ -60,8 +79,6 @@ public class ClientServiceImpl implements ClientService {
                         String.format("Can't find user with document %s", document),
                         ExceptionCode.CLIENT_NOT_FOUND));
     }
-
-
 
 
 }
