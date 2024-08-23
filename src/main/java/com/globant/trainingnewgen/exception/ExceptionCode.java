@@ -9,14 +9,19 @@ public enum ExceptionCode {
     USER_ALREADY_EXISTS("UE-1001", "UserAlreadyExistsException..."),
 
     INCOMPLETE_OR_INCORRECT_INFORMATION("UE-1002", "IncompleteOrIncorrectInformationException..."),
-    CUSTOMER_NOT_FOUND("UE-1004", "CustomerNotFoundException..."),
+    CLIENT_NOT_FOUND("UE-1004", "CustomerNotFoundException..."),
+
     INVALID_DOCUMENT("UE-1005", "InvalidDocumentException..."),
+
     NO_CHANGES("UE-1006", "NoChangesException..."),
+
     COMBO_ALREADY_EXISTS("UE-1007", "ComboAlreadyExistsException..."),
+
     COMBO_NOT_FOUND("UE-1008", "ComboNotFoundException..."),
+
     INVALID_COMBO_UUID("UE-1009", "InvalidComboUUIDException..."),
-    SERVER_ERROR("SE-2001", "ServerErrorException..."),
-    ;
+
+    SERVER_ERROR("SE-2001", "ServerErrorException...");
 
 
     private final String code;

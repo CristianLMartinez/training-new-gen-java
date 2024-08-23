@@ -16,3 +16,7 @@ server:
       enabled: true
       force: true
 
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: ERROR
+
