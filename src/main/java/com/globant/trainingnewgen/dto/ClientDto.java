@@ -1,6 +1,5 @@
 package com.globant.trainingnewgen.dto;
 
-import com.globant.trainingnewgen.service.client.validation.ValidDocument;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 public record ClientDto(
 
         @NotNull(message = "Document can't be null")
-        @Pattern(regexp = "^(CE|CC|TI|P)-[0-9]{1,17}$", message = "Incorrect document format")
+        @Pattern(regexp = "^(CE|CC|TI|P)-\\d{1,17}$", message = "Incorrect document format")
         String document,
 
         @NotBlank(message = "Name is mandatory")
