@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestControllerAdvice
@@ -58,13 +59,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ApiError> methodArgumentValidExceptionHandler(MethodArgumentNotValidException ex) {
-        String field = Objects.requireNonNull(ex.getFieldError()).getField();
-        String defaultMessage = Objects.requireNonNull(ex.getFieldError()).getDefaultMessage();
-        String rejectedValue = Objects.requireNonNull(ex.getFieldError()).getRejectedValue().toString();
+        var errorMessages = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> String.format("Field '%s': %s (rejected value: %s)",
+                        error.getField(),
+                        error.getDefaultMessage(),
+                        error.getRejectedValue()))
+                .toList();
 
-        logger.warn("Validation failed for field '{}': {} (rejected value: {})", field, defaultMessage, rejectedValue);
+        var description = String.join(", ", errorMessages);
+        logger.warn(description);
 
-        String description = String.format("Validation failed for field '%s': %s", field, defaultMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiError(
                         ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode(),
@@ -72,6 +78,7 @@ public class GlobalExceptionHandler {
                         description,
                         ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getDescription()));
     }
+
 
 
 

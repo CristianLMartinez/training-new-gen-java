@@ -1,0 +1,26 @@
+meta {
+  name: create producto
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/products
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/9.3.3
+}
+
+body:json {
+  {
+    "fantasyName": "CHEESE BURGER BIG COMBO",
+    "category": "HAMBURGERS_AND_HOTDOGS",
+    "description": "Burger double 8 Oz meet, cheese, french fries and Big sogda",
+    "price": null,
+    "available": true 
+  }
+}
