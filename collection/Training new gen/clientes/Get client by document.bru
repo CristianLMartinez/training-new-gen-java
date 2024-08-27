@@ -1,0 +1,19 @@
+meta {
+  name: Get client by document
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:8080/clients/CC-123456789?isDeleted=false
+  body: none
+  auth: none
+}
+
+params:query {
+  isDeleted: false
+}
+
+headers {
+  User-Agent: insomnia/9.3.3
+}

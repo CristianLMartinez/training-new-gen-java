@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Training new gen",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -2,12 +2,13 @@ package com.globant.trainingnewgen.controller;
 
 import com.globant.trainingnewgen.dto.ClientDto;
 import com.globant.trainingnewgen.service.client.ClientService;
-import com.globant.trainingnewgen.service.client.validation.ValidDocument;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -25,8 +26,21 @@ public class ClientController {
     }
 
     @GetMapping("{document}")
-    ResponseEntity<ClientDto> getClient(@PathVariable String document) {
-        return ResponseEntity.ok(clientService.getClientByDocument(document));
+    ResponseEntity<ClientDto> getClient(
+            @PathVariable String document,
+            @RequestParam(name = "isDeleted", required = false) Boolean isDeleted) {
+
+        isDeleted = isDeleted != null && isDeleted;
+
+        return ResponseEntity.ok(clientService.getClientByDocument(document, isDeleted));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClientDto>> getClients(
+            @RequestParam(defaultValue = "DOCUMENT") String orderBy,
+            @RequestParam(defaultValue = "ASC") String direction) {
+        List<ClientDto> clients = clientService.getClients(orderBy, direction);
+        return ResponseEntity.ok(clients);
     }
 
     @PutMapping("{document}")

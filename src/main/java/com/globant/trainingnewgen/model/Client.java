@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -36,5 +35,7 @@ public class Client  {
 
     @Column(nullable = false, length = 500)
     private String deliveryAddress;
+
+    private boolean isDeleted = Boolean.FALSE;
 
 }

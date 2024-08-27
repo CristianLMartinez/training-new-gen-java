@@ -1,0 +1,26 @@
+meta {
+  name: Update client
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://localhost:8080/clients/CC-123456
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/9.3.3
+}
+
+body:json {
+  {
+    "document": "CC-1234598",
+    "name": "Pedro Perez",
+    "email": "John@mail.com",
+    "phone": "311-2323212",
+    "deliveryAddress": "Calle 134 #34"
+  }
+}

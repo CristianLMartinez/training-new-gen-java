@@ -1,0 +1,16 @@
+meta {
+  name: get clients by order
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8080/clients?orderBy=ADDRESS&direction=ASC
+  body: none
+  auth: none
+}
+
+params:query {
+  orderBy: ADDRESS
+  direction: ASC
+}
