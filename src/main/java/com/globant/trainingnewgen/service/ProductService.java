@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.service.product;
+package com.globant.trainingnewgen.service;
 
 import com.globant.trainingnewgen.dto.ProductDto;
 

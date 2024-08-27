@@ -1,13 +1,12 @@
-package com.globant.trainingnewgen.service.product.impl;
+package com.globant.trainingnewgen.service.impl;
 
 
 import com.globant.trainingnewgen.dto.ProductDto;
 import com.globant.trainingnewgen.exception.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.mapper.ProductMapper;
-import com.globant.trainingnewgen.model.Product;
 import com.globant.trainingnewgen.repository.ProductRepository;
-import com.globant.trainingnewgen.service.product.ProductService;
+import com.globant.trainingnewgen.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +28,8 @@ public class ProductServiceImpl implements ProductService {
                                     .fantasyName()), ExceptionCode.COMBO_ALREADY_EXISTS);});
 
         var product = ProductMapper.dtoToEntity(requestBody);
+        product.setFantasyName(product.getFantasyName().toUpperCase());
+
         var savedProduct = productRepository.save(product);
 
         return ProductMapper.entityToDto(savedProduct);

@@ -13,17 +13,20 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", indexes = {
+        @Index(name = "product_uuid", columnList = "uuid")
+})
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(updatable = false, nullable = false, unique = true)
     private UUID uuid;
 
     @Column(unique = true, nullable = false, length = 250)
@@ -36,14 +39,21 @@ public class Product {
     @Column(nullable = false, length = 511)
     private String description;
 
-    /**
-     * Price without IVA
-     */
     @DecimalMin(value = "0.01")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @Column(nullable = false)
     private boolean available;
+
+    /**
+     * Pre persist inject the value in the entity before jpa insert the value in the database for first time
+     */
+    @PrePersist
+    private void generateUUID() {
+        if (uuid == null) {
+            uuid = UUID.randomUUID();
+        }
+    }
 
 }

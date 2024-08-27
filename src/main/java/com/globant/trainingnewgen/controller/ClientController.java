@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.controller;
 
 import com.globant.trainingnewgen.dto.ClientDto;
-import com.globant.trainingnewgen.service.client.ClientService;
+import com.globant.trainingnewgen.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

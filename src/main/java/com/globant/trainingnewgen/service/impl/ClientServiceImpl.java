@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.service.client.impl;
+package com.globant.trainingnewgen.service.impl;
 
 import com.globant.trainingnewgen.dto.ClientDto;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
@@ -7,7 +7,7 @@ import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import com.globant.trainingnewgen.mapper.ClientMapper;
 import com.globant.trainingnewgen.model.Client;
 import com.globant.trainingnewgen.repository.ClientRepository;
-import com.globant.trainingnewgen.service.client.ClientService;
+import com.globant.trainingnewgen.service.ClientService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
