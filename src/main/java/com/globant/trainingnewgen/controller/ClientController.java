@@ -53,7 +53,7 @@ public class ClientController {
 
 
     @DeleteMapping("{document}")
-    ResponseEntity deleteClientClient(@PathVariable String document) {
+    ResponseEntity deleteClient(@PathVariable String document) {
         clientService.deleteClient(document);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

@@ -6,22 +6,26 @@ public enum ExceptionCode {
      * UE = User Error
      * SE = Server Error
      */
-    USER_ALREADY_EXISTS("UE-1001", "UserAlreadyExistsException..."),
 
-    INCOMPLETE_OR_INCORRECT_INFORMATION("UE-1002", "IncompleteOrIncorrectInformationException..."),
-    CLIENT_NOT_FOUND("UE-1004", "CustomerNotFoundException..."),
+    USER_ALREADY_EXISTS("UE-1001", "User already exists exception..."),
 
-    INVALID_DOCUMENT("UE-1005", "InvalidDocumentException..."),
+    INCOMPLETE_OR_INCORRECT_INFORMATION("UE-1002", "Incomplete or incorrect information exception..."),
 
-    NO_CHANGES("UE-1006", "NoChangesException..."),
+    CLIENT_NOT_FOUND("UE-1004", "Customer not found exception..."),
 
-    COMBO_ALREADY_EXISTS("UE-1007", "ComboAlreadyExistsException..."),
+    INVALID_DOCUMENT("UE-1005", "Invalid document exception..."),
 
-    COMBO_NOT_FOUND("UE-1008", "ComboNotFoundException..."),
+    NO_CHANGES("UE-1006", "No changes exception..."),
 
-    INVALID_COMBO_UUID("UE-1009", "InvalidComboUUIDException..."),
+    COMBO_ALREADY_EXISTS("UE-1007", "Combo already exists exception..."),
 
-    SERVER_ERROR("SE-2001", "ServerErrorException...");
+    COMBO_NOT_FOUND("UE-1008", "Combo not found Exception..."),
+
+    FANTASY_NAME_ALREADY_USED("UE-1009", "Fantasy name already in use..."),
+
+    INVALID_COMBO_UUID("UE-1010", "Invalid combo UUID exception..."),
+
+    SERVER_ERROR("SE-2001", "Server error exception...");
 
 
     private final String code;

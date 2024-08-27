@@ -2,9 +2,17 @@ package com.globant.trainingnewgen.service;
 
 import com.globant.trainingnewgen.dto.ProductDto;
 
+import java.util.UUID;
+
 public interface ProductService {
 
     ProductDto create(ProductDto productDto);
+
+    ProductDto getProductByUuid(UUID uuid);
+
+    void updateProduct(UUID uuid, ProductDto productDto);
+
+    void deleteProduct(UUID uuid);
 
 
 }

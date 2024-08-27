@@ -46,6 +46,8 @@ public class Product {
     @Column(nullable = false)
     private boolean available;
 
+    private boolean isDeleted = Boolean.FALSE;
+
     /**
      * Pre persist inject the value in the entity before jpa insert the value in the database for first time
      */

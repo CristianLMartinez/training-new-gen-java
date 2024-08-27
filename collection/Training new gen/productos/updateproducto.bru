@@ -1,0 +1,26 @@
+meta {
+  name: updateproducto
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/products/238f3d59-c10d-4745-913d-8f9e0d36521e
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/9.3.3
+}
+
+body:json {
+  {
+    "fantasyName": "CHEESE BURGER SMALL COMBO",
+    "category": "HAMBURGERS_AND_HOTDOGS",
+    "description": "Burger double 8 Oz meet, cheese, french fries and medium soda",
+    "price": "22323.12",
+    "available": true 
+  }
+}
