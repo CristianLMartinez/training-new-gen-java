@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,16 +25,21 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public ClientDto create(ClientDto clientDto) {
-        clientRepository.findClientByDocument(clientDto.document(), false)
-                .ifPresent(client -> {
-                    throw new EntityConflictException(
-                            String.format("User with document %s already exists", clientDto.document()),
-                            ExceptionCode.USER_ALREADY_EXISTS);
-                });
+        var existingClient = clientRepository.findClientByDocument(clientDto.document(), true);
 
-        // todo - volver a activar el usuario
-        var clientEntity = clientRepository.save(ClientMapper.dtoToEntity(clientDto));
-        return ClientMapper.entityToDto(clientEntity);
+        if (existingClient.isPresent()) {
+            var client = existingClient.get();
+            if (client.isDeleted()) {
+                // Restore the client
+                client.setDeleted(false);
+                return ClientMapper.entityToDto(clientRepository.save(client));
+            } else {
+                throw new EntityConflictException(String.format("User with document %s already exists", clientDto.document()), ExceptionCode.USER_ALREADY_EXISTS);
+            }
+        }
+
+        var newClientEntity = clientRepository.save(ClientMapper.dtoToEntity(clientDto));
+        return ClientMapper.entityToDto(newClientEntity);
     }
 
 
