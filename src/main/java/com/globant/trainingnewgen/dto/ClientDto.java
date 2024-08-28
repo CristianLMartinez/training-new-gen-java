@@ -28,6 +28,4 @@ public record ClientDto(
         @NotBlank(message = "Address is mandatory")
         @Length(min = 10, max = 500)
         String deliveryAddress
-) {
-
-}
+) {}

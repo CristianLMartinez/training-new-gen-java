@@ -31,7 +31,6 @@ public class ClientController {
             @RequestParam(name = "isDeleted", required = false) Boolean isDeleted) {
 
         isDeleted = isDeleted != null && isDeleted;
-
         return ResponseEntity.ok(clientService.getClientByDocument(document, isDeleted));
     }
 

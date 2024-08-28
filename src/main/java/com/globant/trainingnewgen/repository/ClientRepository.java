@@ -13,9 +13,9 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("""
-        SELECT c FROM Client c
-        WHERE c.document = :document
-        AND (:isDeleted is null OR c.isDeleted = :isDeleted)
+            SELECT c FROM Client c
+            WHERE c.document = :document
+            AND (:isDeleted is null OR c.isDeleted = :isDeleted)
     """)
     Optional<Client> findClientByDocument(@Param("document") String document, @Param("isDeleted") Boolean isDeleted);
 

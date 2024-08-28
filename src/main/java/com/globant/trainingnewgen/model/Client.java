@@ -21,7 +21,7 @@ public class Client  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, updatable = false)
     private String document;
 
     @Column(nullable = false)

@@ -31,6 +31,7 @@ public class ClientServiceImpl implements ClientService {
                             ExceptionCode.USER_ALREADY_EXISTS);
                 });
 
+        // todo - volver a activar el usuario
         var clientEntity = clientRepository.save(ClientMapper.dtoToEntity(clientDto));
         return ClientMapper.entityToDto(clientEntity);
     }
@@ -77,8 +78,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     /**
-     *
-     * @param orderBy: default DOCUMENT, NAME, ADDRESS
+     * @param orderBy:   default DOCUMENT, NAME, ADDRESS
      * @param direction: ASC || DESC
      * @return
      */
