@@ -1,0 +1,57 @@
+package com.globant.trainingnewgen.service.impl;
+
+import com.globant.trainingnewgen.dto.CreateOrderDto;
+import com.globant.trainingnewgen.dto.OrderDto;
+import com.globant.trainingnewgen.mapper.OrderMapper;
+import com.globant.trainingnewgen.model.Order;
+import com.globant.trainingnewgen.repository.ClientRepository;
+import com.globant.trainingnewgen.repository.OrderRepository;
+import com.globant.trainingnewgen.repository.ProductRepository;
+import com.globant.trainingnewgen.service.OrderService;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+
+@Service
+@RequiredArgsConstructor
+public class OrderServiceImpl implements OrderService {
+
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final ClientRepository clientRepository;
+
+    @Override
+    @Transactional
+    public OrderDto create(CreateOrderDto orderDto) {
+
+        var product = productRepository.findProductByUuid(orderDto.productUuid())
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Product with uuid: %s not found", orderDto.productUuid())));
+
+        var client = clientRepository.findClientByDocument(orderDto.clientDocument(), false)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Client not found for %s", orderDto.clientDocument())));
+
+        var order = OrderMapper.createOrderDtotoEntity(orderDto);
+
+        calculateTotals(order, product.getPrice());
+
+        order.setProduct(product);
+        order.setClient(client);
+        order = orderRepository.save(order);
+
+        return OrderMapper.entityToOrderDto(order);
+    }
+
+    private void calculateTotals(Order order, BigDecimal productPrice) {
+        BigDecimal subTotal = productPrice.multiply(BigDecimal.valueOf(order.getQuantity()));
+        BigDecimal tax = subTotal.multiply(BigDecimal.valueOf(0.19));
+        BigDecimal grandTotal = subTotal.add(tax);
+
+        order.setSubTotal(subTotal);
+        order.setTax(tax);
+        order.setGrandTotal(grandTotal);
+    }
+
+}

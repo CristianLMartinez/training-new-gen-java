@@ -1,6 +1,7 @@
 package com.globant.trainingnewgen.repository;
 
 import com.globant.trainingnewgen.model.Client;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +18,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             WHERE c.document = :document
             AND (:isDeleted is null OR c.isDeleted = :isDeleted)
     """)
-    Optional<Client> findClientByDocument(@Param("document") String document, @Param("isDeleted") Boolean isDeleted);
+    Optional<Client> findClientByDocument(@Param("document") String document, @Param("isDeleted") @DefaultValue("false") Boolean isDeleted);
 
 
     @Query("""

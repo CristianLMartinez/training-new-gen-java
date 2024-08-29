@@ -25,7 +25,7 @@ public class ProductRunner implements CommandLineRunner {
                   .fantasyName("CHEESE BURGER BIG COMBO")
                   .category(ProductCategory.HAMBURGERS_AND_HOTDOGS)
                   .description("Burger double 8 Oz meet, cheese, french fries and Big sogda")
-                  .price(BigDecimal.valueOf(31234.21))
+                  .price(BigDecimal.valueOf(21008.41))
                   .available(true)
                   .build();
 

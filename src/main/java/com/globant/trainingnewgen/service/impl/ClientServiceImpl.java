@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -86,7 +85,7 @@ public class ClientServiceImpl implements ClientService {
     /**
      * @param orderBy:   default DOCUMENT, NAME, ADDRESS
      * @param direction: ASC || DESC
-     * @return
+     * @return clients
      */
     @Override
     public List<ClientDto> getClients(String orderBy, String direction) {
