@@ -25,6 +25,9 @@ public enum ExceptionCode {
 
     INVALID_COMBO_UUID("UE-1010", "Invalid combo UUID exception..."),
 
+    INVALID_DATE_TIME("UE-1011", "Invalid date time exception..."),
+
+
     SERVER_ERROR("SE-2001", "Server error exception...");
 
 

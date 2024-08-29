@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,18 @@ public class OrderServiceImpl implements OrderService {
         order = orderRepository.save(order);
 
         return OrderMapper.entityToOrderDto(order);
+    }
+
+    @Override
+    public OrderDto updateDeliveredState(UUID orderUuid, LocalDateTime deliveredDate) {
+        var order = orderRepository.findByUuid(orderUuid)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Order with uuid: %s not found", orderUuid)));
+
+        order.setDeliveryDate(deliveredDate);
+        order.setDelivered(Boolean.TRUE);
+
+        var orderSaved = orderRepository.save(order);
+        return  OrderMapper.entityToOrderDto(orderSaved);
     }
 
     private void calculateTotals(Order order, BigDecimal productPrice) {

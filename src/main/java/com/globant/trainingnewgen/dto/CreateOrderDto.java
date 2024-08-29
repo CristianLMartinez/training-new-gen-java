@@ -5,9 +5,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 
 import java.util.UUID;
 
+@Builder
 public record CreateOrderDto(
 
         @NotNull(message = "Client document can't be null")

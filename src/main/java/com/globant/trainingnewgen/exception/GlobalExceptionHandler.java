@@ -12,9 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.time.LocalDateTime;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -82,9 +84,24 @@ public class GlobalExceptionHandler {
 
 
 
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    ResponseEntity<ApiError> handlerMethodValidationException(HandlerMethodValidationException ex) {
+        logger.warn("Validation exception: {}", ex.getDetailMessageArguments());
+        String description = Arrays.toString(ex.getDetailMessageArguments());
+
+        logger.warn("{}", ex.getClass());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiError(
+                        ExceptionCode.INVALID_DATE_TIME.getCode(),
+                        LocalDateTime.now(),
+                        description,
+                        ex.getClass().getName()
+                ));
+    }
+
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiError> exceptionHandler(Exception ex) {
-        logger.error("Something went wrong {}", ex.getMessage());
+        logger.error("Something went wrong {}", ex.getClass());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiError(
                         ExceptionCode.USER_ALREADY_EXISTS.getCode(),
