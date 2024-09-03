@@ -1,7 +1,7 @@
-package com.globant.trainingnewgen.mapper;
+package com.globant.trainingnewgen.model.mapper;
 
-import com.globant.trainingnewgen.dto.CreateOrderDto;
-import com.globant.trainingnewgen.dto.OrderDto;
+import com.globant.trainingnewgen.model.dto.CreateOrderDto;
+import com.globant.trainingnewgen.model.dto.OrderDto;
 import com.globant.trainingnewgen.model.Client;
 import com.globant.trainingnewgen.model.Order;
 import com.globant.trainingnewgen.model.Product;

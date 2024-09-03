@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.service;
 
-import com.globant.trainingnewgen.dto.CreateOrderDto;
-import com.globant.trainingnewgen.dto.OrderDto;
+import com.globant.trainingnewgen.model.dto.CreateOrderDto;
+import com.globant.trainingnewgen.model.dto.OrderDto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

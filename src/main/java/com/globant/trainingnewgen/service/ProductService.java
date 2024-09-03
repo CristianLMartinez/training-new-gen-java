@@ -1,6 +1,6 @@
 package com.globant.trainingnewgen.service;
 
-import com.globant.trainingnewgen.dto.ProductDto;
+import com.globant.trainingnewgen.model.dto.ProductDto;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package com.globant.trainingnewgen.controller;
 
-import com.globant.trainingnewgen.dto.ClientDto;
+import com.globant.trainingnewgen.model.dto.ClientDto;
 import com.globant.trainingnewgen.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

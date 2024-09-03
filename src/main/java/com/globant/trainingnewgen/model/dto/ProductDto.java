@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.dto;
+package com.globant.trainingnewgen.model.dto;
 
 import com.globant.trainingnewgen.model.ProductCategory;
 import jakarta.validation.constraints.*;
