@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.dto;
+package com.globant.trainingnewgen.model.dto;
 
 import jakarta.validation.constraints.Digits;
 import lombok.Builder;

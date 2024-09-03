@@ -1,6 +1,6 @@
 package com.globant.trainingnewgen.service;
 
-import com.globant.trainingnewgen.dto.ClientDto;
+import com.globant.trainingnewgen.model.dto.ClientDto;
 
 import java.util.List;
 

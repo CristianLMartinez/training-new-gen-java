@@ -1,8 +1,8 @@
 package com.globant.trainingnewgen.controller;
 
 
-import com.globant.trainingnewgen.dto.CreateOrderDto;
-import com.globant.trainingnewgen.dto.OrderDto;
+import com.globant.trainingnewgen.model.dto.CreateOrderDto;
+import com.globant.trainingnewgen.model.dto.OrderDto;
 import com.globant.trainingnewgen.service.OrderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;

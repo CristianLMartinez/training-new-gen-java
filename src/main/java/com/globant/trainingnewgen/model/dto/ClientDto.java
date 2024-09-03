@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.dto;
+package com.globant.trainingnewgen.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

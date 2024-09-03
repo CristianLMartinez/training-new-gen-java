@@ -21,10 +21,4 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     Optional<Client> findClientByDocument(@Param("document") String document, @Param("isDeleted") @DefaultValue("false") Boolean isDeleted);
 
 
-    @Query("""
-        SELECT c FROM Client c
-        WHERE c.isDeleted = false
-    """)
-    List<Client> findAllActiveClients();
-
 }

@@ -1,11 +1,10 @@
 package com.globant.trainingnewgen.runner;
 
-import com.globant.trainingnewgen.dto.CreateOrderDto;
-import com.globant.trainingnewgen.mapper.OrderMapper;
+import com.globant.trainingnewgen.model.dto.CreateOrderDto;
+import com.globant.trainingnewgen.model.mapper.OrderMapper;
 import com.globant.trainingnewgen.repository.ClientRepository;
 import com.globant.trainingnewgen.repository.OrderRepository;
 import com.globant.trainingnewgen.repository.ProductRepository;
-import com.globant.trainingnewgen.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;

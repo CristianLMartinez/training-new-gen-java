@@ -1,10 +1,10 @@
 package com.globant.trainingnewgen.service.impl;
 
-import com.globant.trainingnewgen.dto.ClientDto;
+import com.globant.trainingnewgen.model.dto.ClientDto;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.exception.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
-import com.globant.trainingnewgen.mapper.ClientMapper;
+import com.globant.trainingnewgen.model.mapper.ClientMapper;
 import com.globant.trainingnewgen.model.Client;
 import com.globant.trainingnewgen.repository.ClientRepository;
 import com.globant.trainingnewgen.service.ClientService;
