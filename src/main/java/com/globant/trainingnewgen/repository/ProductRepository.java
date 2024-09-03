@@ -1,6 +1,6 @@
 package com.globant.trainingnewgen.repository;
 
-import com.globant.trainingnewgen.model.Product;
+import com.globant.trainingnewgen.model.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

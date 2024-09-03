@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.runner;
 
-import com.globant.trainingnewgen.model.Product;
-import com.globant.trainingnewgen.model.ProductCategory;
+import com.globant.trainingnewgen.model.entity.Product;
+import com.globant.trainingnewgen.model.entity.ProductCategory;
 import com.globant.trainingnewgen.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.model;
+package com.globant.trainingnewgen.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

@@ -6,7 +6,7 @@ import com.globant.trainingnewgen.exception.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import com.globant.trainingnewgen.model.mapper.ProductMapper;
-import com.globant.trainingnewgen.model.Product;
+import com.globant.trainingnewgen.model.entity.Product;
 import com.globant.trainingnewgen.repository.ProductRepository;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.transaction.Transactional;

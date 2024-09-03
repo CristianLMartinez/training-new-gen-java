@@ -46,7 +46,7 @@ public class OrderRunner implements CommandLineRunner {
 
     }
 
-    private void calculateTotals(com.globant.trainingnewgen.model.Order order, BigDecimal productPrice) {
+    private void calculateTotals(com.globant.trainingnewgen.model.entity.Order order, BigDecimal productPrice) {
         BigDecimal subTotal = productPrice.multiply(BigDecimal.valueOf(order.getQuantity()));
         BigDecimal tax = subTotal.multiply(BigDecimal.valueOf(0.19));
         BigDecimal grandTotal = subTotal.add(tax);

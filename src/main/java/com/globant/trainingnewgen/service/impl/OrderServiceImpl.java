@@ -3,7 +3,7 @@ package com.globant.trainingnewgen.service.impl;
 import com.globant.trainingnewgen.model.dto.CreateOrderDto;
 import com.globant.trainingnewgen.model.dto.OrderDto;
 import com.globant.trainingnewgen.model.mapper.OrderMapper;
-import com.globant.trainingnewgen.model.Order;
+import com.globant.trainingnewgen.model.entity.Order;
 import com.globant.trainingnewgen.repository.ClientRepository;
 import com.globant.trainingnewgen.repository.OrderRepository;
 import com.globant.trainingnewgen.repository.ProductRepository;

@@ -1,6 +1,6 @@
 package com.globant.trainingnewgen.repository;
 
-import com.globant.trainingnewgen.model.Client;
+import com.globant.trainingnewgen.model.entity.Client;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

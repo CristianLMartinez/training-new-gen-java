@@ -2,9 +2,9 @@ package com.globant.trainingnewgen.model.mapper;
 
 import com.globant.trainingnewgen.model.dto.CreateOrderDto;
 import com.globant.trainingnewgen.model.dto.OrderDto;
-import com.globant.trainingnewgen.model.Client;
-import com.globant.trainingnewgen.model.Order;
-import com.globant.trainingnewgen.model.Product;
+import com.globant.trainingnewgen.model.entity.Client;
+import com.globant.trainingnewgen.model.entity.Order;
+import com.globant.trainingnewgen.model.entity.Product;
 
 
 public class OrderMapper {

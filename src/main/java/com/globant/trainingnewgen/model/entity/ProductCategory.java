@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.model;
+package com.globant.trainingnewgen.model.entity;
 
 public enum ProductCategory {
     HAMBURGERS_AND_HOTDOGS,
