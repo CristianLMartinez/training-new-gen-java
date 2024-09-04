@@ -1,5 +1,7 @@
 package com.globant.trainingnewgen.service.impl;
 
+import com.globant.trainingnewgen.exception.ExceptionCode;
+import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import com.globant.trainingnewgen.model.dto.CreateOrderDto;
 import com.globant.trainingnewgen.model.dto.OrderDto;
 import com.globant.trainingnewgen.model.mapper.OrderMapper;
@@ -33,9 +35,13 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Product with uuid: %s not found", orderDto.productUuid())));
 
         var client = clientRepository.findClientByDocument(orderDto.clientDocument(), false)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Client not found for %s", orderDto.clientDocument())));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Client with uuid: %s not found", orderDto.clientDocument()), ExceptionCode.CLIENT_NOT_FOUND));
 
-        var order = OrderMapper.createOrderDtotoEntity(orderDto);
+        if(client.isDeleted()){
+            throw new ResourceNotFoundException(String.format("Client with uuid: %s not found", orderDto.clientDocument()), ExceptionCode.CLIENT_NOT_FOUND);
+        }
+
+        var order = orderDto.toEntity();
 
         calculateTotals(order, product.getPrice());
 

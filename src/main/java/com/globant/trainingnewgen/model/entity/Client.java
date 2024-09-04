@@ -1,16 +1,12 @@
 package com.globant.trainingnewgen.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -20,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "clients", indexes = {
         @Index(name = "index_document", columnList = "document")
 })
-public class Client  {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +39,6 @@ public class Client  {
 
     private boolean isDeleted = Boolean.FALSE;
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders;
 }

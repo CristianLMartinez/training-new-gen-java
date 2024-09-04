@@ -11,15 +11,6 @@ public class OrderMapper {
 
     private OrderMapper() {}
 
-    public static Order createOrderDtotoEntity(CreateOrderDto orderDto){
-        return Order.builder()
-                .client(Client.builder().document(orderDto.clientDocument()).build())
-                .product(Product.builder().uuid(orderDto.productUuid()).build())
-                .quantity(orderDto.quantity())
-                .extraInformation(orderDto.extraInformation())
-                .build();
-    }
-
     public static OrderDto entityToOrderDto(Order order){
         return OrderDto.builder()
                 .clientDocument(order.getClient().getDocument())

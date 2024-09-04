@@ -1,6 +1,9 @@
 package com.globant.trainingnewgen.model.dto;
 
 
+import com.globant.trainingnewgen.model.entity.Client;
+import com.globant.trainingnewgen.model.entity.Order;
+import com.globant.trainingnewgen.model.entity.Product;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -26,4 +29,14 @@ public record CreateOrderDto(
         String extraInformation
 
 ) {
+
+        public Order toEntity(){
+                return Order.builder()
+                        .client(Client.builder().document(clientDocument()).build())
+                        .product(Product.builder().uuid(productUuid()).build())
+                        .quantity(quantity())
+                        .extraInformation(extraInformation())
+                        .build();
+        }
+
 }

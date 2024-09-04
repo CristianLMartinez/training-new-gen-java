@@ -31,7 +31,7 @@ public class OrderRunner implements CommandLineRunner {
                 .productUuid(UUID.fromString("238f3d59-c10d-4745-913d-8f9e0d36521e"))
                 .build();
 
-        var order = OrderMapper.createOrderDtotoEntity(createOrderDto);
+        var order = createOrderDto.toEntity();
 
         var product = productRepository.findById(1L).orElseThrow();
         var client = clientRepository.findById(1L).orElseThrow();

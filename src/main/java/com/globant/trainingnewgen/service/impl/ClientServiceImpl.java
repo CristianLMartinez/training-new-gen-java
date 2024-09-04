@@ -7,6 +7,7 @@ import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import com.globant.trainingnewgen.model.mapper.ClientMapper;
 import com.globant.trainingnewgen.model.entity.Client;
 import com.globant.trainingnewgen.repository.ClientRepository;
+import com.globant.trainingnewgen.repository.OrderRepository;
 import com.globant.trainingnewgen.service.ClientService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final OrderRepository orderRepository;
 
     @Transactional
     @Override
@@ -78,6 +80,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void restoreClient(String document) {
         Client client = validateAndRetrieveClientByDocument(document, true);
+//        orderRepository.deleteAll(client.getOrders());
+        client.getOrders().forEach(orderRepository::delete);
         client.setDeleted(false);
         clientRepository.save(client);
     }
@@ -89,7 +93,6 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     public List<ClientDto> getClients(String orderBy, String direction) {
-        // https://www.baeldung.com/spring-data-sorting - sort examples
         var modifiedDirection = Sort.Direction.fromString(direction);
         var sort = Sort.by(modifiedDirection, mapOrderByToField(orderBy));
 
