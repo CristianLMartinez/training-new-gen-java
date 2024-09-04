@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.model.mapper;
 
 import com.globant.trainingnewgen.model.dto.ProductDto;
-import com.globant.trainingnewgen.model.Product;
+import com.globant.trainingnewgen.model.entity.Product;
 
 
 public class ProductMapper {

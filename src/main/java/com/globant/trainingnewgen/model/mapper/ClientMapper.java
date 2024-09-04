@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.model.mapper;
 
 import com.globant.trainingnewgen.model.dto.ClientDto;
-import com.globant.trainingnewgen.model.Client;
+import com.globant.trainingnewgen.model.entity.Client;
 
 public class ClientMapper {
 

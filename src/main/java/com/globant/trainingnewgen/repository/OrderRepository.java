@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.repository;
 
 
-import com.globant.trainingnewgen.model.Order;
+import com.globant.trainingnewgen.model.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

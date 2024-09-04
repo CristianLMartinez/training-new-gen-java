@@ -1,9 +1,8 @@
-package com.globant.trainingnewgen.model;
+package com.globant.trainingnewgen.model.entity;
 
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

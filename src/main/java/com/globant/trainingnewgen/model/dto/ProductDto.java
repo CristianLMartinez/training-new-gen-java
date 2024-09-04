@@ -1,6 +1,6 @@
 package com.globant.trainingnewgen.model.dto;
 
-import com.globant.trainingnewgen.model.ProductCategory;
+import com.globant.trainingnewgen.model.entity.ProductCategory;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 

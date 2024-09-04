@@ -1,6 +1,6 @@
 package com.globant.trainingnewgen.runner;
 
-import com.globant.trainingnewgen.model.Client;
+import com.globant.trainingnewgen.model.entity.Client;
 import com.globant.trainingnewgen.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
