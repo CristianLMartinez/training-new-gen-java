@@ -32,7 +32,6 @@ public class ProductSeedRunner implements CommandLineRunner {
           productRepository.save(product);
 
 
-
         Product product1 = Product.builder()
                 .uuid(UUID.fromString("f3a2b4c6-8d9e-4f5a-abc1-23f6e7d8a9b0"))
                 .fantasyName("PIZZA SUPREME")

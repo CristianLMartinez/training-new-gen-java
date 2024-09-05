@@ -2,11 +2,11 @@ spring:
   datasource:
     username: postgres
     url: jdbc:postgresql://localhost:5432/grandma_db
-    password: omar123
+    password: password
 
   jpa:
     hibernate:
       ddl-auto: create
-      dialect: org.hibernate.dialect.H2Dialect
+
     show-sql: true
     defer-datasource-initialization: true

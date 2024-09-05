@@ -19,8 +19,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByAvailable(boolean available);
 
-
-
-   // List<Product> findByFantasyNameContainingIgnoreCaseOrderByFantasyNameAsc(String fantasyName);
-   List<Product> findByFantasyNameLikeIgnoreCaseOrderByFantasyNameAsc(String fantasyName);
+    List<Product> findByFantasyNameLikeIgnoreCaseOrderByFantasyNameAsc(String fantasyName);
 }

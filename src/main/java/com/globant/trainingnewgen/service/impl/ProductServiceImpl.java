@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    // todo - refactor this class
     private final ProductRepository productRepository;
 
 
@@ -50,15 +49,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    /**
-     * Validate:
-     * * if UUID is correct
-     * * if exists a product by uuid
-     * * If already exists a product with the fantasy name
-     * * at least must be a field different
-     * @param uuid
-     * @param productDto
-     */
     @Override
     @Transactional
     public void updateProduct(UUID uuid, ProductDto productDto) {
@@ -95,6 +85,15 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
     }
 
+    @Override
+    @Transactional
+    public List<ProductDto> searchProductsByFantasyName(String fantasyName) {
+        List<Product> products = productRepository.findByFantasyNameLikeIgnoreCaseOrderByFantasyNameAsc(fantasyName);
+        return products.stream()
+                .map(ProductMapper::entityToDto)
+                .toList();
+    }
+
     private void updateExistingProduct(Product existingProduct, ProductDto productDto) {
         existingProduct.setFantasyName(productDto.fantasyName());
         existingProduct.setCategory(productDto.category());
@@ -111,14 +110,7 @@ public class ProductServiceImpl implements ProductService {
                 existingProduct.isAvailable() != productDto.available();
     }
 
-    @Override
-    @Transactional
-    public List<ProductDto> searchProductsByFantasyName(String fantasyName) {
-        List<Product> products = productRepository.findByFantasyNameLikeIgnoreCaseOrderByFantasyNameAsc(fantasyName);
-        return products.stream()
-                .map(ProductMapper::entityToDto)
-                .collect(Collectors.toList());
-    }
+
 
 
 }

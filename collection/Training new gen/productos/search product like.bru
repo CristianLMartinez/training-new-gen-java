@@ -1,0 +1,15 @@
+meta {
+  name: search product like
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/products/search?q=HAMBURGUER
+  body: none
+  auth: none
+}
+
+params:query {
+  q: HAMBURGUER
+}
