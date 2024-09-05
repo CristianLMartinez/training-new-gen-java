@@ -21,3 +21,7 @@ al indicar la misma carpeta este se ira actualizando automaticamente.
 Para instalarlo ve a [**download bruno**](https://www.usebruno.com/downloads)
 Luego de eso indicale que quieres importar una nueva **collection del tipo bru**, y el automaticamente
 hara el mapeo de las cosas...
+
+### Referencias 
+
+- [**XML mapper**](https://www.baeldung.com/jackson-xml-serialization-and-deserialization)
