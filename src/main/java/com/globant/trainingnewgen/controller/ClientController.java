@@ -43,21 +43,18 @@ public class ClientController {
     }
 
     @PutMapping("{document}")
-    ResponseEntity updateClient(@PathVariable String document, @RequestBody @Valid ClientDto clientDto) {
+    ResponseEntity<Void> updateClient(@PathVariable String document,
+                                      @RequestBody @Valid ClientDto clientDto) {
         clientService.updateClient(document, clientDto);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
+        return ResponseEntity.noContent().build();
     }
 
 
     @DeleteMapping("{document}")
-    ResponseEntity deleteClient(@PathVariable String document) {
+    ResponseEntity<Void> deleteClient(@PathVariable String document) {
         clientService.deleteClient(document);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
-
+        return ResponseEntity.noContent().build();
     }
+
 
 }
