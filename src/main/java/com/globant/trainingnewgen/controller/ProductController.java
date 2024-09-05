@@ -1,6 +1,7 @@
 package com.globant.trainingnewgen.controller;
 
 
+import com.globant.trainingnewgen.dto.ProductDto;
 import com.globant.trainingnewgen.model.dto.ProductDto;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.validation.Valid;
@@ -32,22 +33,23 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductByUuid(uuid));
     }
 
-    @PutMapping("{uuid}")
-    public ResponseEntity updateProduct(@PathVariable UUID uuid, @Valid @RequestBody ProductDto productDto) {
+    @PutMapping("/{uuid}")
+    public ResponseEntity<Void> updateProduct(@PathVariable UUID uuid, @Valid @RequestBody ProductDto productDto) {
         productService.updateProduct(uuid, productDto);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("{uuid}")
-    ResponseEntity deleteProduct(@PathVariable UUID uuid) {
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable UUID uuid) {
         productService.deleteProduct(uuid);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
-
+        return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProductsByFantasyName(@RequestParam(value = "q", required = true) String q) {
+        if (q == null || q.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El parametro de búsqueda no puede estar vacio.");
+        }
 
 
 }

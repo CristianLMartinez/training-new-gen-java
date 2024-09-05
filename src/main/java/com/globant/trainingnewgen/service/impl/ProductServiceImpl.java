@@ -13,7 +13,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -107,6 +109,15 @@ public class ProductServiceImpl implements ProductService {
                 !existingProduct.getDescription().equals(productDto.description()) ||
                 !existingProduct.getPrice().equals(productDto.price()) ||
                 existingProduct.isAvailable() != productDto.available();
+    }
+
+    @Override
+    @Transactional
+    public List<ProductDto> searchProductsByFantasyName(String fantasyName) {
+        List<Product> products = productRepository.findByFantasyNameLikeIgnoreCaseOrderByFantasyNameAsc(fantasyName);
+        return products.stream()
+                .map(ProductMapper::entityToDto)
+                .collect(Collectors.toList());
     }
 
 

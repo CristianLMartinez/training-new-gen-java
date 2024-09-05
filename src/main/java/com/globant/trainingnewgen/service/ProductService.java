@@ -2,6 +2,7 @@ package com.globant.trainingnewgen.service;
 
 import com.globant.trainingnewgen.model.dto.ProductDto;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
@@ -14,5 +15,5 @@ public interface ProductService {
 
     void deleteProduct(UUID uuid);
 
-
+    List<ProductDto> searchProductsByFantasyName(String fantasyName);
 }
