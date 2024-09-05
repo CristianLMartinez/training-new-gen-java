@@ -1,17 +1,14 @@
 package com.globant.trainingnewgen.controller;
 
-
 import com.globant.trainingnewgen.dto.ProductDto;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,30 +21,39 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
         ProductDto createdProduct = productService.create(productDto);
-        return ResponseEntity.ok(createdProduct);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    @GetMapping("{uuid}")
+    @GetMapping("/{uuid}")
     public ResponseEntity<ProductDto> getProductByUuid(@PathVariable UUID uuid) {
-        return ResponseEntity.ok(productService.getProductByUuid(uuid));
+        ProductDto product = productService.getProductByUuid(uuid);
+        return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
     }
 
-    @PutMapping("{uuid}")
-    public ResponseEntity updateProduct(@PathVariable UUID uuid, @Valid @RequestBody ProductDto productDto) {
+    @PutMapping("/{uuid}")
+    public ResponseEntity<Void> updateProduct(@PathVariable UUID uuid, @Valid @RequestBody ProductDto productDto) {
         productService.updateProduct(uuid, productDto);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("{uuid}")
-    ResponseEntity deleteProduct(@PathVariable UUID uuid) {
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable UUID uuid) {
         productService.deleteProduct(uuid);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
-
+        return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProductsByFantasyName(@RequestParam(value = "q", required = true) String q) {
+        if (q == null || q.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El parametro de búsqueda no puede estar vacio.");
+        }
 
+        List<ProductDto> products = productService.searchProductsByFantasyName(q);
+
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.ok(products);
+    }
 }

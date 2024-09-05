@@ -30,6 +30,21 @@ public class ProductRunner implements CommandLineRunner {
                   .build();
 
           productRepository.save(product);
+
+
+
+        Product product1 = Product.builder()
+                .uuid(UUID.fromString("f3a2b4c6-8d9e-4f5a-abc1-23f6e7d8a9b0"))
+                .fantasyName("PIZZA SUPREME")
+                .category(ProductCategory.CHICKEN)
+                .description("A mouthwatering pizza topped with a variety of ingredients")
+                .price(BigDecimal.valueOf(189.50))
+                .available(true)
+                .build();
+
+        productRepository.save(product1);
+
+
     }
 
 }
