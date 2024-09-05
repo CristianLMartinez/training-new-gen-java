@@ -1,10 +1,7 @@
 package com.globant.trainingnewgen.exception;
 
 
-import com.globant.trainingnewgen.exception.custom.CustomException;
-import com.globant.trainingnewgen.exception.custom.EntityConflictException;
-import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
-import com.globant.trainingnewgen.exception.custom.ValidationException;
+import com.globant.trainingnewgen.exception.custom.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,8 +14,6 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 import java.time.LocalDateTime;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -99,12 +94,25 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex) {
+        logger.error("Illegal argument exception: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiError(
+                        ExceptionCode.UNSUPPORTED_CONTENT_TYPE.getCode(),
+                        LocalDateTime.now(),
+                        ex.getMessage(),
+                        ExceptionCode.UNSUPPORTED_CONTENT_TYPE.getDescription()
+                ));
+    }
+
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiError> exceptionHandler(Exception ex) {
         logger.error("Something went wrong {}", ex.getClass());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiError(
-                        ExceptionCode.USER_ALREADY_EXISTS.getCode(),
+                        ExceptionCode.UNSUPPORTED_CONTENT_TYPE.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
                         ex.getClass().getName()

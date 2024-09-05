@@ -2,7 +2,7 @@ package com.globant.trainingnewgen.service.impl;
 
 
 import com.globant.trainingnewgen.model.dto.ProductDto;
-import com.globant.trainingnewgen.exception.ExceptionCode;
+import com.globant.trainingnewgen.exception.custom.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import com.globant.trainingnewgen.model.mapper.ProductMapper;

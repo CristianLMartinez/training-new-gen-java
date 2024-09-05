@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.exception;
+package com.globant.trainingnewgen.exception.custom;
 
 public enum ExceptionCode {
 
@@ -27,6 +27,7 @@ public enum ExceptionCode {
 
     INVALID_DATE_TIME("UE-1011", "Invalid date time exception..."),
 
+    UNSUPPORTED_CONTENT_TYPE("UE-1012", "Unsupported content type exception..."),
 
     SERVER_ERROR("SE-2001", "Server error exception...");
 

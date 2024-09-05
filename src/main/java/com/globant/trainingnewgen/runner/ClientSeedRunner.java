@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Order(1)
 @Component
 @RequiredArgsConstructor
-public class ClientRunner implements CommandLineRunner {
+public class ClientSeedRunner implements CommandLineRunner {
 
     private final ClientRepository clientRepository;
 

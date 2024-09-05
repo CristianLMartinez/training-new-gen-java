@@ -1,7 +1,6 @@
 package com.globant.trainingnewgen.runner;
 
 import com.globant.trainingnewgen.model.dto.CreateOrderDto;
-import com.globant.trainingnewgen.model.mapper.OrderMapper;
 import com.globant.trainingnewgen.repository.ClientRepository;
 import com.globant.trainingnewgen.repository.OrderRepository;
 import com.globant.trainingnewgen.repository.ProductRepository;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @Order(3)
 @Component
 @RequiredArgsConstructor
-public class OrderRunner implements CommandLineRunner {
+public class OrderSeedRunner implements CommandLineRunner {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;

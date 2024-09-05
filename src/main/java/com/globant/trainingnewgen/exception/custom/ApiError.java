@@ -1,4 +1,4 @@
-package com.globant.trainingnewgen.exception;
+package com.globant.trainingnewgen.exception.custom;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

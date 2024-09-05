@@ -14,7 +14,7 @@ import java.util.UUID;
 @Order(2)
 @Component
 @RequiredArgsConstructor
-public class ProductRunner implements CommandLineRunner {
+public class ProductSeedRunner implements CommandLineRunner {
 
     private final ProductRepository productRepository;
 

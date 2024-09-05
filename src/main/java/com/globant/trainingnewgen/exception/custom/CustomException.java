@@ -1,6 +1,5 @@
 package com.globant.trainingnewgen.exception.custom;
 
-import com.globant.trainingnewgen.exception.ExceptionCode;
 import lombok.Getter;
 
 @Getter

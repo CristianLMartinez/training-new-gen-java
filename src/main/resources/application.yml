@@ -10,7 +10,7 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.StdDateFormat
 
 server:
-  port: 8089
+  port: 8080
   servlet:
     encoding:
       charset: UTF-8
