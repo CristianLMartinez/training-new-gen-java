@@ -1,7 +1,9 @@
 package com.globant.trainingnewgen.service;
 
 import com.globant.trainingnewgen.model.dto.ProductDto;
+import com.globant.trainingnewgen.model.dto.SalesReportDto;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public interface ProductService {
@@ -14,5 +16,6 @@ public interface ProductService {
 
     void deleteProduct(UUID uuid);
 
+    SalesReportDto getSalesReport(LocalDate startDate, LocalDate endDate);
 
 }

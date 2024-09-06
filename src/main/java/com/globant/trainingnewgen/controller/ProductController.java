@@ -2,9 +2,11 @@ package com.globant.trainingnewgen.controller;
 
 
 import com.globant.trainingnewgen.model.dto.ProductDto;
+import com.globant.trainingnewgen.model.dto.SalesReportDto;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.UUID;
 
 @RestController
@@ -47,6 +52,36 @@ public class ProductController {
                 .status(HttpStatus.NO_CONTENT)
                 .body(null);
 
+    }
+
+    @GetMapping("/sales_report/{date1}/{date2}")
+    public ResponseEntity<?> getSalesReport(
+            @PathVariable String date1,
+            @PathVariable String date2) {
+
+        if (!isValidDate(date1) || !isValidDate(date2)) {
+            return ResponseEntity.badRequest().body("Invalid date format. Please use YYYYMMDD.");
+        }
+
+        LocalDate startDate = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDate endDate = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        if (!startDate.isBefore(endDate)) {
+            return ResponseEntity.badRequest().body("The start date must be before the end date.");
+        }
+
+        SalesReportDto report = productService.getSalesReport(startDate, endDate);
+
+        return ResponseEntity.ok(report);
+    }
+
+    private boolean isValidDate(String date) {
+        try {
+            LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd"));
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
 

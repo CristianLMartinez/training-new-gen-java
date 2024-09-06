@@ -5,15 +5,22 @@ import com.globant.trainingnewgen.model.dto.ProductDto;
 import com.globant.trainingnewgen.exception.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
+import com.globant.trainingnewgen.model.dto.SalesData;
+import com.globant.trainingnewgen.model.dto.SalesReportDto;
 import com.globant.trainingnewgen.model.mapper.ProductMapper;
 import com.globant.trainingnewgen.model.entity.Product;
+import com.globant.trainingnewgen.repository.OrderRepository;
 import com.globant.trainingnewgen.repository.ProductRepository;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +28,9 @@ public class ProductServiceImpl implements ProductService {
 
     // todo - refactor this class
     private final ProductRepository productRepository;
+    @Autowired
+    private final OrderRepository orderRepository;
+
 
 
     @Override
@@ -107,6 +117,32 @@ public class ProductServiceImpl implements ProductService {
                 !existingProduct.getDescription().equals(productDto.description()) ||
                 !existingProduct.getPrice().equals(productDto.price()) ||
                 existingProduct.isAvailable() != productDto.available();
+    }
+
+    @Override
+    public SalesReportDto getSalesReport(LocalDate startDate, LocalDate endDate) {
+
+        List<SalesData> salesData = orderRepository.findSalesDataBetweenDates(startDate, endDate);
+
+        int maxUnitsSold = salesData.stream().mapToLong(SalesData::getUnitsSold).mapToInt(Math::toIntExact).max().orElse(0);
+        int minUnitsSold = salesData.stream().mapToLong(SalesData::getUnitsSold).mapToInt(Math::toIntExact).min().orElse(0);
+
+        List<String> mostSoldProducts = salesData.stream()
+                .filter(s -> s.getUnitsSold() == maxUnitsSold)
+                .map(SalesData::getProductName)
+                .collect(Collectors.toList());
+
+        List<String> leastSoldProducts = salesData.stream()
+                .filter(s -> s.getUnitsSold() == minUnitsSold)
+                .map(SalesData::getProductName)
+                .collect(Collectors.toList());
+
+        SalesReportDto report = new SalesReportDto();
+        report.setSalesData(salesData);
+        report.setMostSoldProducts(mostSoldProducts);
+        report.setLeastSoldProducts(leastSoldProducts);
+
+        return report;
     }
 
 

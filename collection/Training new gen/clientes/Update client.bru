@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: http://localhost:8080/clients/CC-123456789
+  url: http://localhost:8080/v1/clients/05d55133-c23c-4433-bfb2-f29a080ecc49
   body: json
   auth: none
 }
@@ -17,10 +17,7 @@ headers {
 
 body:json {
   {
-    "document": "CC-123456789",
-    "name": "Pablo Navaja",
-    "email": "John@mail.com",
-    "phone": "311-2323212",
-    "deliveryAddress": "Calle 134 #34"
+    "name": "Pablo",
+    "apellido": "Ortega"
   }
 }
