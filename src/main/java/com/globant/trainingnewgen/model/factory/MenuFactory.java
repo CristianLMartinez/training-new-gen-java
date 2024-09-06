@@ -1,9 +1,9 @@
 package com.globant.trainingnewgen.model.factory;
 
 import com.globant.trainingnewgen.service.MenuService;
-import com.globant.trainingnewgen.service.impl.MenuDocx;
-import com.globant.trainingnewgen.service.impl.MenuPdf;
-import com.globant.trainingnewgen.service.impl.MenuPlainText;
+import com.globant.trainingnewgen.service.impl.DocxMenu;
+import com.globant.trainingnewgen.service.impl.PdfMenu;
+import com.globant.trainingnewgen.service.impl.PlainTextMenu;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MenuFactory {
 
-    private final MenuPlainText menuPlainText;
-    private final MenuPdf menuPdf;
-    private final MenuDocx menuDocx;
+    private final PlainTextMenu menuPlainText;
+    private final PdfMenu menuPdf;
+    private final DocxMenu menuDocx;
 
     public MenuService getMenuService(String contentType) {
         return switch (contentType) {

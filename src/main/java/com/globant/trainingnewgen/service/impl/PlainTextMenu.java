@@ -17,18 +17,19 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MenuPlainText implements MenuService {
+public class PlainTextMenu implements MenuService {
 
     private final ProductRepository productRepository;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MenuPlainText.class);
+    private final static Logger logger = LoggerFactory.getLogger(PlainTextMenu.class);
 
     @Override
     public void generateDocument(ByteArrayOutputStream outputStream) {
         List<Product> products = productRepository.findByAvailable(Boolean.TRUE);
+
         Map<ProductCategory, List<Product>> categorizedProducts = products.stream()
                 .collect(Collectors.groupingBy(Product::getCategory));
 
-        StringBuilder menu = new StringBuilder("Restaurante XYZ\n\n");
+        StringBuilder menu = new StringBuilder("GRANDMA'S FOOD\n\n");
 
         for (Map.Entry<ProductCategory, List<Product>> entry : categorizedProducts.entrySet()) {
             menu.append(entry.getKey().name()).append("\n");
@@ -41,7 +42,7 @@ public class MenuPlainText implements MenuService {
         try {
             outputStream.write(menu.toString().getBytes());
         } catch (IOException e) {
-           LOGGER.error("Error writing menu to output stream", e);
+           logger.error("Error writing menu to output stream", e);
         }
     }
 }

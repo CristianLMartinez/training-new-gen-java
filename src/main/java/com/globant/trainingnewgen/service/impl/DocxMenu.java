@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MenuDocx implements MenuService {
+public class DocxMenu implements MenuService {
 
     private final ProductRepository productRepository;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MenuPdf.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(PdfMenu.class);
 
     @Override
     public void generateDocument(ByteArrayOutputStream outputStream) {
@@ -32,7 +32,7 @@ public class MenuDocx implements MenuService {
         try (XWPFDocument document = new XWPFDocument()) {
             XWPFParagraph title = document.createParagraph();
             XWPFRun run = title.createRun();
-            run.setText("Restaurante XYZ");
+            run.setText("GRANDMA'S FOOD");
             run.setBold(true);
             run.setFontSize(20);
 
@@ -57,7 +57,7 @@ public class MenuDocx implements MenuService {
 
             document.write(outputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error writing menu to output stream", e);
         }
     }
 

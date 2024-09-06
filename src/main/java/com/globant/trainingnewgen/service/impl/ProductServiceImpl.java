@@ -67,7 +67,6 @@ public class ProductServiceImpl implements ProductService {
             throw new EntityConflictException(String.format("Product with fantasy name %s already used!",
                     productDto.fantasyName()), ExceptionCode.FANTASY_NAME_ALREADY_USED);
         }
-
         updateExistingProduct(existingProduct, productDto);
 
         productRepository.save(existingProduct);
@@ -86,9 +85,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public List<ProductDto> searchProductsByFantasyName(String fantasyName) {
-        List<Product> products = productRepository.findByFantasyNameLikeIgnoreCaseOrderByFantasyNameAsc(fantasyName);
+        List<Product> products = productRepository.searchByFantasyName(fantasyName);
         return products.stream()
                 .map(ProductMapper::entityToDto)
                 .toList();

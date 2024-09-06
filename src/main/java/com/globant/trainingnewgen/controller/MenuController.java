@@ -20,12 +20,12 @@ import java.io.ByteArrayOutputStream;
 public class MenuController {
 
     private final MenuFactory menuFactory;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MenuController.class);
+    private final static Logger logger = LoggerFactory.getLogger(MenuController.class);
 
     @GetMapping
     public ResponseEntity<byte[]> getMenu(HttpServletRequest request) {
         String contentType = request.getHeader("Content-Type");
-        LOGGER.info("Requesting menu with Content-Type: {}", contentType);
+        logger.info("Requesting menu with Content-Type: {}", contentType);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         MenuService menuService = menuFactory.getMenuService(contentType);

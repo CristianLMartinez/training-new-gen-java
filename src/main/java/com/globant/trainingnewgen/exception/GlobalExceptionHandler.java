@@ -22,10 +22,10 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    ResponseEntity<ApiError> resourceNotFoundExceptionHandler(CustomException ex) {
+    ResponseEntity<ErrorResponse> resourceNotFoundExceptionHandler(CustomException ex) {
         logger.warn("Resource not found exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiError(
+                .body(new ErrorResponse(
                         ExceptionCode.USER_ALREADY_EXISTS.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
@@ -33,10 +33,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityConflictException.class)
-    public ResponseEntity<ApiError> handleEntityConflictException(EntityConflictException ex) {
+    public ResponseEntity<ErrorResponse> handleEntityConflictException(EntityConflictException ex) {
         logger.error("Entity conflict exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ApiError(
+                .body(new ErrorResponse(
                         ExceptionCode.NO_CHANGES.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
@@ -44,10 +44,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ValidationException.class)
-    ResponseEntity<ApiError> validationExceptionHandler(Exception ex) {
+    ResponseEntity<ErrorResponse> validationExceptionHandler(Exception ex) {
         logger.warn("Validation exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError(
+                .body(new ErrorResponse(
                         ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity<ApiError> methodArgumentValidExceptionHandler(MethodArgumentNotValidException ex) {
+    ResponseEntity<ErrorResponse> methodArgumentValidExceptionHandler(MethodArgumentNotValidException ex) {
         var errorMessages = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
         logger.warn(description);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError(
+                .body(new ErrorResponse(
                         ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode(),
                         LocalDateTime.now(),
                         description,
@@ -80,13 +80,13 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(HandlerMethodValidationException.class)
-    ResponseEntity<ApiError> handlerMethodValidationException(HandlerMethodValidationException ex) {
+    ResponseEntity<ErrorResponse> handlerMethodValidationException(HandlerMethodValidationException ex) {
         logger.warn("Validation exception: {}", ex.getDetailMessageArguments());
         String description = Arrays.toString(ex.getDetailMessageArguments());
 
         logger.warn("{}", ex.getClass());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError(
+                .body(new ErrorResponse(
                         ExceptionCode.INVALID_DATE_TIME.getCode(),
                         LocalDateTime.now(),
                         description,
@@ -96,23 +96,23 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex) {
+    ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         logger.error("Illegal argument exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError(
-                        ExceptionCode.UNSUPPORTED_CONTENT_TYPE.getCode(),
+                .body(new ErrorResponse(
+                        ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
-                        ExceptionCode.UNSUPPORTED_CONTENT_TYPE.getDescription()
+                        ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getDescription()
                 ));
     }
 
     @ExceptionHandler(Exception.class)
-    ResponseEntity<ApiError> exceptionHandler(Exception ex) {
+    ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
         logger.error("Something went wrong {}", ex.getClass());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiError(
-                        ExceptionCode.UNSUPPORTED_CONTENT_TYPE.getCode(),
+                .body(new ErrorResponse(
+                        ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getCode(),
                         LocalDateTime.now(),
                         ex.getMessage(),
                         ex.getClass().getName()

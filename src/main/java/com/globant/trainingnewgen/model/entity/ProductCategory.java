@@ -1,7 +1,7 @@
 package com.globant.trainingnewgen.model.entity;
 
 public enum ProductCategory {
-    HAMBURGERS_AND_HOTDOGS,
+    HAMBURGERS_AND_HOT_DOGS,
     CHICKEN,
     FISH,
     MEATS,

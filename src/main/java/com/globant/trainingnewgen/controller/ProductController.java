@@ -5,6 +5,7 @@ import com.globant.trainingnewgen.model.dto.ProductDto;
 import com.globant.trainingnewgen.model.entity.Product;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +56,11 @@ public class ProductController {
 
     @GetMapping("/search")
     public ResponseEntity<List<ProductDto>> searchProductsByFantasyName(
-            @RequestParam(value = "q") String q) {
+            @RequestParam(value = "q", required = true) String q) {
         logger.info("Searching products by name {}", q);
+
         if (q == null || q.trim().isEmpty()) {
-            throw new IllegalArgumentException("q is empty");
+            throw new IllegalArgumentException("Query parameter 'q' is required");
         }
 
         List<ProductDto> products = productService.searchProductsByFantasyName(q);

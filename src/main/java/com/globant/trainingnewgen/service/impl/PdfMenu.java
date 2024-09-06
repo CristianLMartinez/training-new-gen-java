@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MenuPdf implements MenuService {
+public class PdfMenu implements MenuService {
 
     private final ProductRepository productRepository;
-    private final static Logger LOGGER = LoggerFactory.getLogger(MenuPdf.class);
+    private final static Logger logger = LoggerFactory.getLogger(PdfMenu.class);
 
     @Override
     public void generateDocument(ByteArrayOutputStream outputStream) {
@@ -34,12 +34,11 @@ public class MenuPdf implements MenuService {
             PDPage page = new PDPage();
             document.addPage(page);
 
-            PDType1Font font = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 20);
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD_OBLIQUE), 24);
                 contentStream.beginText();
                 contentStream.newLineAtOffset(100, 700);
-                contentStream.showText("Restaurante XYZ");
+                contentStream.showText("GRANDMA'S FOOD");
                 contentStream.endText();
 
                 List<Product> products = productRepository.findByAvailable(Boolean.TRUE);
@@ -49,7 +48,7 @@ public class MenuPdf implements MenuService {
                 int yPosition = 650;
 
                 for (Map.Entry<ProductCategory, List<Product>> entry : categorizedProducts.entrySet()) {
-                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 16);
+                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 16);
                     contentStream.beginText();
                     contentStream.newLineAtOffset(100, yPosition);
                     contentStream.showText(entry.getKey().name());
@@ -60,17 +59,18 @@ public class MenuPdf implements MenuService {
                         contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 12);
                         contentStream.beginText();
                         contentStream.newLineAtOffset(120, yPosition);
-                        contentStream.showText(product.getFantasyName() + " - $" + product.getPrice());
-                        contentStream.endText();
+                        contentStream.showText(String.format("%s - $%.2f", product.getFantasyName(), product.getPrice()));                        contentStream.endText();
                         yPosition -= 15;
                     }
+
+
                     yPosition -= 20;
                 }
             }
 
             document.save(outputStream);
         } catch (IOException e) {
-            LOGGER.error("Error writing menu to output stream", e);
+            logger.error("Error writing menu to output stream", e);
         }
     }
 }

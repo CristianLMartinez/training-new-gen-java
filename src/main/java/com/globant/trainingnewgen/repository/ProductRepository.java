@@ -2,6 +2,8 @@ package com.globant.trainingnewgen.repository;
 
 import com.globant.trainingnewgen.model.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,5 +21,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByAvailable(boolean available);
 
-    List<Product> findByFantasyNameLikeIgnoreCaseOrderByFantasyNameAsc(String fantasyName);
+    @Query("""
+            SELECT p FROM Product p 
+            WHERE LOWER(p.fantasyName) 
+            LIKE LOWER(CONCAT('%', :fantasyName, '%')) 
+            ORDER BY p.fantasyName ASC
+            """)
+    List<Product> searchByFantasyName(String fantasyName);
+
 }
