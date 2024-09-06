@@ -5,14 +5,21 @@ import com.globant.trainingnewgen.model.dto.ProductDto;
 import com.globant.trainingnewgen.exception.custom.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
+import com.globant.trainingnewgen.model.dto.SalesData;
+import com.globant.trainingnewgen.model.dto.SalesDataProjection;
+import com.globant.trainingnewgen.model.dto.SalesReportDto;
 import com.globant.trainingnewgen.model.mapper.ProductMapper;
 import com.globant.trainingnewgen.model.entity.Product;
+import com.globant.trainingnewgen.repository.OrderRepository;
 import com.globant.trainingnewgen.repository.ProductRepository;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -92,6 +99,7 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
+
     private void updateExistingProduct(Product existingProduct, ProductDto productDto) {
         existingProduct.setFantasyName(productDto.fantasyName());
         existingProduct.setCategory(productDto.category());
@@ -107,8 +115,6 @@ public class ProductServiceImpl implements ProductService {
                 !existingProduct.getPrice().equals(productDto.price()) ||
                 existingProduct.isAvailable() != productDto.available();
     }
-
-
 
 
 }
