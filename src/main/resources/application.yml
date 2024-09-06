@@ -9,8 +9,12 @@ spring:
     time-zone: America/Bogota
     date-format: com.fasterxml.jackson.databind.util.StdDateFormat
 
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+
 server:
-  port: 8081
+  port: 8080
   servlet:
     encoding:
       charset: UTF-8

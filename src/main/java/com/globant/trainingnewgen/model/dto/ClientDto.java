@@ -1,5 +1,6 @@
 package com.globant.trainingnewgen.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Length;
 
+@Schema(name = "client", description = "schema to hold client information")
 @Builder
 public record ClientDto(
 

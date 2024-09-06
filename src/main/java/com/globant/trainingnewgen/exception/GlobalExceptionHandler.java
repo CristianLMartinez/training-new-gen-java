@@ -2,6 +2,7 @@ package com.globant.trainingnewgen.exception;
 
 
 import com.globant.trainingnewgen.exception.custom.*;
+import com.globant.trainingnewgen.model.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,34 +25,43 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     ResponseEntity<ErrorResponse> resourceNotFoundExceptionHandler(CustomException ex) {
         logger.warn("Resource not found exception: {}", ex.getMessage());
+        var errorResponse = ErrorResponse.builder()
+                .code(ex.getExceptionCode().getCode())
+                .timestamp(LocalDateTime.now())
+                .description(ex.getMessage())
+                .exception(ex.getExceptionCode().getDescription())
+                .build();
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(
-                        ExceptionCode.USER_ALREADY_EXISTS.getCode(),
-                        LocalDateTime.now(),
-                        ex.getMessage(),
-                        ex.getExceptionCode().getDescription()));
+                .body(errorResponse);
     }
 
     @ExceptionHandler(EntityConflictException.class)
     public ResponseEntity<ErrorResponse> handleEntityConflictException(EntityConflictException ex) {
         logger.error("Entity conflict exception: {}", ex.getMessage());
+        var errorResponse = ErrorResponse.builder()
+                .code(ex.getExceptionCode().getCode())
+                .timestamp(LocalDateTime.now())
+                .description(ex.getMessage())
+                .exception(ex.getExceptionCode().getDescription())
+                .build();
+
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse(
-                        ExceptionCode.NO_CHANGES.getCode(),
-                        LocalDateTime.now(),
-                        ex.getMessage(),
-                        ExceptionCode.NO_CHANGES.getDescription()));
+                .body(errorResponse);
     }
 
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<ErrorResponse> validationExceptionHandler(Exception ex) {
         logger.warn("Validation exception: {}", ex.getMessage());
+        var errorResponse = ErrorResponse.builder()
+                .code(ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode())
+                .timestamp(LocalDateTime.now())
+                .description(ex.getMessage())
+                .exception(ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getDescription())
+                .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                        ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode(),
-                        LocalDateTime.now(),
-                        ex.getMessage(),
-                        ExceptionCode.COMBO_ALREADY_EXISTS.getDescription()));
+                .body(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -68,12 +78,15 @@ public class GlobalExceptionHandler {
         var description = String.join(", ", errorMessages);
         logger.warn(description);
 
+        var errorResponse = ErrorResponse.builder()
+                .code(ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode())
+                .timestamp(LocalDateTime.now())
+                .description(description)
+                .exception(ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getDescription())
+                .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                        ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode(),
-                        LocalDateTime.now(),
-                        description,
-                        ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getDescription()));
+                .body(errorResponse);
     }
 
 
@@ -81,42 +94,47 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HandlerMethodValidationException.class)
     ResponseEntity<ErrorResponse> handlerMethodValidationException(HandlerMethodValidationException ex) {
-        logger.warn("Validation exception: {}", ex.getDetailMessageArguments());
+        logger.warn("{}", ex.getClass());
         String description = Arrays.toString(ex.getDetailMessageArguments());
 
-        logger.warn("{}", ex.getClass());
+        var errorResponse = ErrorResponse.builder()
+                .code(ExceptionCode.INCOMPLETE_OR_INCORRECT_INFORMATION.getCode())
+                .timestamp(LocalDateTime.now())
+                .description(description)
+                .exception(ex.getClass().getName())
+                .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                        ExceptionCode.INVALID_DATE_TIME.getCode(),
-                        LocalDateTime.now(),
-                        description,
-                        ex.getClass().getName()
-                ));
+                .body(errorResponse);
     }
 
 
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         logger.error("Illegal argument exception: {}", ex.getMessage());
+        var errorResponse = ErrorResponse.builder()
+                .code(ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getCode())
+                .timestamp(LocalDateTime.now())
+                .description(ex.getMessage())
+                .exception(ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getDescription())
+                .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                        ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getCode(),
-                        LocalDateTime.now(),
-                        ex.getMessage(),
-                        ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getDescription()
-                ));
+                .body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
     ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
         logger.error("Something went wrong {}", ex.getClass());
+        var errorResponse = ErrorResponse.builder()
+                .code(ExceptionCode.SERVER_ERROR.getCode())
+                .timestamp(LocalDateTime.now())
+                .description(ex.getMessage())
+                .exception(ExceptionCode.SERVER_ERROR.getDescription())
+                .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                        ExceptionCode.ILLEGAL_ARGUMENT_EXCEPTION.getCode(),
-                        LocalDateTime.now(),
-                        ex.getMessage(),
-                        ex.getClass().getName()
-                ));
+                .body(errorResponse);
     }
 
 
