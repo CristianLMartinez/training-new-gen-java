@@ -42,4 +42,19 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Order> orders;
 
+
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", document='" + document + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", deliveryAddress='" + deliveryAddress + '\'' +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
+
 }

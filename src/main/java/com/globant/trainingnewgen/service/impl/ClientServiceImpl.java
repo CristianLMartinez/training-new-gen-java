@@ -73,7 +73,11 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
     @Override
     public void deleteClient(String document) {
         var client = validateAndRetrieveClientByDocument(document, null);
-        orderRepository.deleteAll(client.getOrders());
+        var orders = client.getOrders();
+        orders.forEach(order -> {
+            System.out.println("Deleting order: " + order.getUuid());
+            orderRepository.delete(order);
+        });
         client.setDeleted(true);
         clientRepository.save(client);
     }

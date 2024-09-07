@@ -79,4 +79,20 @@ public class Order {
             creationDateTime = LocalDateTime.now();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", uuid=" + uuid +
+                ", creationDateTime=" + creationDateTime +
+                ", quantity=" + quantity +
+                ", extraInformation='" + extraInformation + '\'' +
+                ", subTotal=" + subTotal +
+                ", tax=" + tax +
+                ", grandTotal=" + grandTotal +
+                ", delivered=" + delivered +
+                ", deliveryDate=" + deliveryDate +
+                '}';
+    }
 }
