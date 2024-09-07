@@ -39,9 +39,8 @@ public class Client {
 
     private boolean isDeleted = Boolean.FALSE;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "client", orphanRemoval = true)
     private List<Order> orders;
-
 
 
     @Override

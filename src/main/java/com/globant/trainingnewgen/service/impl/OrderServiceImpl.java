@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
         var client = clientRepository.findClientByDocument(orderDto.clientDocument(), false)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Client with uuid: %s not found", orderDto.clientDocument()), ExceptionCode.CLIENT_NOT_FOUND));
 
-        if(client.isDeleted()){
+        if (client.isDeleted()) {
             throw new ResourceNotFoundException(String.format("Client with uuid: %s not found", orderDto.clientDocument()), ExceptionCode.CLIENT_NOT_FOUND);
         }
 
@@ -61,7 +62,13 @@ public class OrderServiceImpl implements OrderService {
         order.setDelivered(Boolean.TRUE);
 
         var orderSaved = orderRepository.save(order);
-        return  OrderMapper.entityToOrderDto(orderSaved);
+        return OrderMapper.entityToOrderDto(orderSaved);
+    }
+
+    @Override
+    public List<OrderDto> getOrdersByClientDocument(String document) {
+        var orders = orderRepository.findByClientDocument(document);
+        return orders.stream().map(OrderMapper::entityToOrderDto).toList();
     }
 
     private void calculateTotals(Order order, BigDecimal productPrice) {

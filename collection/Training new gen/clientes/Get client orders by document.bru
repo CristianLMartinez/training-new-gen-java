@@ -1,0 +1,16 @@
+meta {
+  name: Get client orders by document
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8080/clients/CE-123456789/orders
+  body: none
+  auth: none
+}
+
+headers {
+  User-Agent: insomnia/9.3.3
+  Accept: application/xml
+}

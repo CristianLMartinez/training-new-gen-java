@@ -125,7 +125,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     ResponseEntity<ErrorResponse> exceptionHandler(Exception ex) {
-        logger.error("Something went wrong {}", ex.getClass());
+        logger.error("Something went wrong {}", ex.getMessage());
         var errorResponse = ErrorResponse.builder()
                 .code(ExceptionCode.SERVER_ERROR.getCode())
                 .timestamp(LocalDateTime.now())

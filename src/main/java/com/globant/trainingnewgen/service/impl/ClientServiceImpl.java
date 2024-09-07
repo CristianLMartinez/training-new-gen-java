@@ -69,18 +69,16 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
         clientRepository.save(existingClient);
     }
 
+
     @Transactional
     @Override
     public void deleteClient(String document) {
         var client = validateAndRetrieveClientByDocument(document, null);
-        var orders = client.getOrders();
-        orders.forEach(order -> {
-            System.out.println("Deleting order: " + order.getUuid());
-            orderRepository.delete(order);
-        });
+        client.getOrders().clear();
         client.setDeleted(true);
         clientRepository.save(client);
     }
+
 
     @Transactional
     @Override

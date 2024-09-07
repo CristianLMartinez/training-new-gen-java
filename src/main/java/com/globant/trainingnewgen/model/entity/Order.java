@@ -40,7 +40,8 @@ public class Order {
     @Column(nullable = false, updatable = false)
     private LocalDateTime creationDateTime;
 
-    @ManyToOne(optional = false)
+
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "client_document", referencedColumnName = "document", nullable = false)
     private Client client;
 

@@ -1,25 +1,3 @@
-INSERT INTO clients (document, name, email, phone, delivery_address, is_deleted)
-VALUES ('CE-123456789', 'John Doe', 'john.doe@example.com', '123-4567890', '123 Main St', FALSE),
-       ('CC-234567890', 'Jane Smith', 'jane.smith@example.com', '234-5678901', '456 Elm St', FALSE),
-       ('TI-345678901', 'Alice Johnson', 'alice.johnson@example.com', '345-6789012', '789 Oak St', FALSE),
-       ('P-456789012', 'Bob Brown', 'bob.brown@example.com', '456-7890123', '101 Pine St', FALSE),
-       ('CE-567890123', 'Charlie Davis', 'charlie.davis@example.com', '567-8901234', '202 Maple St', FALSE),
-       ('CE-678901234', 'David Evans', 'david.evans@example.com', '678-9012345', '303 Birch St', FALSE),
-       ('CC-789012345', 'Emma Wilson', 'emma.wilson@example.com', '789-0123456', '404 Cedar St', FALSE),
-       ('TI-890123456', 'Frank Harris', 'frank.harris@example.com', '890-1234567', '505 Spruce St', FALSE),
-       ('P-901234567', 'Grace Martin', 'grace.martin@example.com', '901-2345678', '606 Fir St', FALSE),
-       ('CE-012345678', 'Henry Clark', 'henry.clark@example.com', '012-3456789', '707 Ash St', FALSE),
-       ('CC-123456780', 'Ivy Lewis', 'ivy.lewis@example.com', '123-4567801', '808 Pine St', FALSE),
-       ('TI-234567891', 'Jack Walker', 'jack.walker@example.com', '234-5678912', '909 Maple St', FALSE),
-       ('P-345678902', 'Karen Hall', 'karen.hall@example.com', '345-6789023', '1010 Oak St', FALSE),
-       ('CE-456789013', 'Leo Allen', 'leo.allen@example.com', '456-7890134', '1111 Elm St', FALSE),
-       ('CC-567890124', 'Mia Young', 'mia.young@example.com', '567-8901245', '1212 Birch St', FALSE),
-       ('TI-678901235', 'Noah King', 'noah.king@example.com', '678-9012356', '1313 Cedar St', FALSE),
-       ('P-789012346', 'Olivia Scott', 'olivia.scott@example.com', '789-0123467', '1414 Spruce St', FALSE),
-       ('CE-890123457', 'Paul Green', 'paul.green@example.com', '890-1234578', '1515 Fir St', FALSE),
-       ('CC-901234568', 'Quinn Baker', 'quinn.baker@example.com', '901-2345689', '1616 Ash St', FALSE),
-       ('TI-012345679', 'Rachel Adams', 'rachel.adams@example.com', '012-3456790', '1717 Pine St', FALSE);
-
 INSERT INTO products (uuid, fantasy_name, category, description, price, available, is_deleted)
 VALUES ('be1cf063-79a8-4f25-9f04-18a157f5249d', 'Classic Burger', 'HAMBURGERS_AND_HOT_DOGS',
         'A delicious classic burger with all the fixings.', 5.99, TRUE, FALSE),
@@ -55,6 +33,28 @@ VALUES ('be1cf063-79a8-4f25-9f04-18a157f5249d', 'Classic Burger', 'HAMBURGERS_AN
         'Creamy Alfredo pasta with grilled chicken.', 11.99, TRUE, FALSE),
        ('f4e8b7d1-2c4d-4e9a-8b6d-3c5f7a8b9e0c', 'Apple Pie', 'DESSERTS',
         'Classic apple pie with a flaky crust and sweet apple filling.', 4.79, TRUE, FALSE);
+
+INSERT INTO clients (document, name, email, phone, delivery_address, is_deleted)
+VALUES ('CE-123456789', 'John Doe', 'john.doe@example.com', '123-4567890', '123 Main St', FALSE),
+       ('CC-234567890', 'Jane Smith', 'jane.smith@example.com', '234-5678901', '456 Elm St', FALSE),
+       ('TI-345678901', 'Alice Johnson', 'alice.johnson@example.com', '345-6789012', '789 Oak St', FALSE),
+       ('P-456789012', 'Bob Brown', 'bob.brown@example.com', '456-7890123', '101 Pine St', FALSE),
+       ('CE-567890123', 'Charlie Davis', 'charlie.davis@example.com', '567-8901234', '202 Maple St', FALSE),
+       ('CE-678901234', 'David Evans', 'david.evans@example.com', '678-9012345', '303 Birch St', FALSE),
+       ('CC-789012345', 'Emma Wilson', 'emma.wilson@example.com', '789-0123456', '404 Cedar St', FALSE),
+       ('TI-890123456', 'Frank Harris', 'frank.harris@example.com', '890-1234567', '505 Spruce St', FALSE),
+       ('P-901234567', 'Grace Martin', 'grace.martin@example.com', '901-2345678', '606 Fir St', FALSE),
+       ('CE-012345678', 'Henry Clark', 'henry.clark@example.com', '012-3456789', '707 Ash St', FALSE),
+       ('CC-123456780', 'Ivy Lewis', 'ivy.lewis@example.com', '123-4567801', '808 Pine St', FALSE),
+       ('TI-234567891', 'Jack Walker', 'jack.walker@example.com', '234-5678912', '909 Maple St', FALSE),
+       ('P-345678902', 'Karen Hall', 'karen.hall@example.com', '345-6789023', '1010 Oak St', FALSE),
+       ('CE-456789013', 'Leo Allen', 'leo.allen@example.com', '456-7890134', '1111 Elm St', FALSE),
+       ('CC-567890124', 'Mia Young', 'mia.young@example.com', '567-8901245', '1212 Birch St', FALSE),
+       ('TI-678901235', 'Noah King', 'noah.king@example.com', '678-9012356', '1313 Cedar St', FALSE),
+       ('P-789012346', 'Olivia Scott', 'olivia.scott@example.com', '789-0123467', '1414 Spruce St', FALSE),
+       ('CE-890123457', 'Paul Green', 'paul.green@example.com', '890-1234578', '1515 Fir St', FALSE),
+       ('CC-901234568', 'Quinn Baker', 'quinn.baker@example.com', '901-2345689', '1616 Ash St', FALSE),
+       ('TI-012345679', 'Rachel Adams', 'rachel.adams@example.com', '012-3456790', '1717 Pine St', FALSE);
 
 
 INSERT INTO orders (uuid, product_id, creation_date_time, client_document, quantity, extra_information, sub_total, tax, grand_total, delivered, delivery_date)

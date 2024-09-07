@@ -1,7 +1,9 @@
 package com.globant.trainingnewgen.controller;
 
 import com.globant.trainingnewgen.model.dto.ClientDto;
+import com.globant.trainingnewgen.model.dto.OrderDto;
 import com.globant.trainingnewgen.service.ClientService;
+import com.globant.trainingnewgen.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,6 +28,7 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
+    private final OrderService orderService;
     private final static Logger logger = LoggerFactory.getLogger(ClientController.class);
 
 
@@ -63,6 +66,14 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
+    @GetMapping("{document}/orders")
+    public ResponseEntity<List<OrderDto>> getOrdersByClientDocument(
+            @PathVariable String document) {
+        logger.info("Getting orders by client document: {}", document);
+        List<OrderDto> orders = orderService.getOrdersByClientDocument(document);
+        return ResponseEntity.ok(orders);
+    }
+
 
     @Operation(summary = "Update a client by document",
             description = "Updates the details of a client identified by their document.")
@@ -83,4 +94,6 @@ public class ClientController {
         clientService.deleteClient(document);
         return ResponseEntity.noContent().build();
     }
+
+
 }

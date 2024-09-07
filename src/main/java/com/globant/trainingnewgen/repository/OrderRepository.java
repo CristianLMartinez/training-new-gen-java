@@ -20,6 +20,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Optional<Order> findByUuid(UUID uuid);
 
+    @Query("""
+            SELECT o FROM Order o 
+            JOIN Client c ON o.client.document = c.document 
+            WHERE c.document = :document
+            """)
+    List<Order> findByClientDocument(String document);
 
     @Query("""
             SELECT
