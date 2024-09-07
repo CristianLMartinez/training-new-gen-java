@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends BaseService<Product, ProductDto> implements ProductService {
 
     private final ProductRepository productRepository;
 
@@ -34,18 +34,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductDto create(ProductDto requestBody) {
-        productRepository.findProductByFantasyName(requestBody.fantasyName())
-                .ifPresent(product -> {
-                    throw new EntityConflictException(String.format("Product with fantasy name %s already exists", requestBody.fantasyName()), ExceptionCode.COMBO_ALREADY_EXISTS);
-                });
+        validateAndThrowIfExists(
+                productRepository.findProductByFantasyName(requestBody.fantasyName()),
+                ExceptionCode.COMBO_ALREADY_EXISTS,
+                String.format("Product with fantasy name %s already exists", requestBody.fantasyName())
+        );
 
         var product = ProductMapper.dtoToEntity(requestBody);
         product.setFantasyName(product.getFantasyName().toUpperCase());
 
         var savedProduct = productRepository.save(product);
-
         return ProductMapper.entityToDto(savedProduct);
     }
+
 
     @Override
     public ProductDto getProductByUuid(UUID uuid) {
@@ -53,30 +54,6 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with uuid %s not found", uuid), ExceptionCode.COMBO_NOT_FOUND));
 
         return ProductMapper.entityToDto(product);
-    }
-
-
-    @Override
-    @Transactional
-    public void updateProduct(UUID uuid, ProductDto productDto) {
-
-        var existingProduct = productRepository.findProductByUuid(uuid)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format("Product with uuid %s not found", uuid),
-                        ExceptionCode.COMBO_NOT_FOUND));
-
-
-        if (existingProduct.getFantasyName().equals(productDto.fantasyName())) {
-            if (!hasChanges(existingProduct, productDto)) {
-                throw new EntityConflictException("No fields were updated.", ExceptionCode.NO_CHANGES);
-            }
-        } else if (productRepository.existsByFantasyName(productDto.fantasyName())) {
-            throw new EntityConflictException(String.format("Product with fantasy name %s already used!",
-                    productDto.fantasyName()), ExceptionCode.FANTASY_NAME_ALREADY_USED);
-        }
-        updateExistingProduct(existingProduct, productDto);
-
-        productRepository.save(existingProduct);
     }
 
     @Override
@@ -100,20 +77,46 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @Override
+    @Transactional
+    public void updateProduct(UUID uuid, ProductDto productDto) {
+        var existingProduct = retrieveOrThrow(
+                productRepository.findProductByUuid(uuid),
+                ExceptionCode.COMBO_NOT_FOUND,
+                String.format("Product with uuid %s not found", uuid)
+        );
+
+        if (existingProduct.getFantasyName().equals(productDto.fantasyName())) {
+            if (!hasChanges(existingProduct, productDto)) {
+                throw new EntityConflictException("No fields were updated.", ExceptionCode.NO_CHANGES);
+            }
+        } else {
+            validateAndThrowIfExists(
+                    productRepository.findProductByFantasyName(productDto.fantasyName()),
+                    ExceptionCode.FANTASY_NAME_ALREADY_USED,
+                    String.format("Product with fantasy name %s already used!", productDto.fantasyName())
+            );
+        }
+
+        updateExistingProduct(existingProduct, productDto);
+        productRepository.save(existingProduct);
+    }
+
+    @Override
+    protected boolean hasChanges(Product existingProduct, ProductDto productDto) {
+        return !existingProduct.getFantasyName().equals(productDto.fantasyName()) ||
+                !existingProduct.getCategory().equals(productDto.category()) ||
+                !existingProduct.getDescription().equals(productDto.description()) ||
+                !existingProduct.getPrice().equals(productDto.price()) ||
+                existingProduct.isAvailable() != productDto.available();
+    }
+
     private void updateExistingProduct(Product existingProduct, ProductDto productDto) {
         existingProduct.setFantasyName(productDto.fantasyName());
         existingProduct.setCategory(productDto.category());
         existingProduct.setDescription(productDto.description());
         existingProduct.setPrice(productDto.price());
         existingProduct.setAvailable(productDto.available());
-    }
-
-    private boolean hasChanges(Product existingProduct, ProductDto productDto) {
-        return !existingProduct.getFantasyName().equals(productDto.fantasyName()) ||
-                !existingProduct.getCategory().equals(productDto.category()) ||
-                !existingProduct.getDescription().equals(productDto.description()) ||
-                !existingProduct.getPrice().equals(productDto.price()) ||
-                existingProduct.isAvailable() != productDto.available();
     }
 
 

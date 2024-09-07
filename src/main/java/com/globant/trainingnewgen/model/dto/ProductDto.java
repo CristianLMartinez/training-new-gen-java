@@ -28,5 +28,4 @@ public record ProductDto(
         BigDecimal price,
 
         boolean available
-) {
-}
+) {}

@@ -18,25 +18,25 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl extends BaseService<Client, ClientDto> implements ClientService {
 
     private final ClientRepository clientRepository;
     private final OrderRepository orderRepository;
 
-    @Transactional
     @Override
+    @Transactional
     public ClientDto create(ClientDto clientDto) {
         var existingClient = clientRepository.findClientByDocument(clientDto.document(), true);
 
-        if (existingClient.isPresent()) {
-            var client = existingClient.get();
-            if (client.isDeleted()) {
-                // Restore the client
-                client.setDeleted(false);
-                return ClientMapper.entityToDto(clientRepository.save(client));
-            } else {
-                throw new EntityConflictException(String.format("User with document %s already exists", clientDto.document()), ExceptionCode.USER_ALREADY_EXISTS);
-            }
+        validateAndThrowIfExists(
+                existingClient.filter(client -> !client.isDeleted()),
+                ExceptionCode.USER_ALREADY_EXISTS,
+                String.format("User with document %s already exists", clientDto.document())
+        );
+
+        if (existingClient.isPresent() && existingClient.get().isDeleted()) {
+            existingClient.get().setDeleted(false);
+            return ClientMapper.entityToDto(clientRepository.save(existingClient.get()));
         }
 
         var newClientEntity = clientRepository.save(ClientMapper.dtoToEntity(clientDto));
@@ -71,7 +71,8 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public void deleteClient(String document) {
-        Client client = validateAndRetrieveClientByDocument(document, false);
+        var client = validateAndRetrieveClientByDocument(document, false);
+        orderRepository.deleteAll(client.getOrders());
         client.setDeleted(true);
         clientRepository.save(client);
     }
@@ -80,8 +81,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void restoreClient(String document) {
         Client client = validateAndRetrieveClientByDocument(document, true);
-//        orderRepository.deleteAll(client.getOrders());
-        client.getOrders().forEach(orderRepository::delete);
         client.setDeleted(false);
         clientRepository.save(client);
     }
@@ -118,7 +117,8 @@ public class ClientServiceImpl implements ClientService {
                         ExceptionCode.CLIENT_NOT_FOUND));
     }
 
-    private boolean hasChanges(Client existingClient, ClientDto requestBody) {
+    @Override
+    protected boolean hasChanges(Client existingClient, ClientDto requestBody) {
         return !existingClient.getName().equals(requestBody.name()) ||
                 !existingClient.getEmail().equals(requestBody.email()) ||
                 !existingClient.getPhone().equals(requestBody.phone()) ||

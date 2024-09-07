@@ -14,7 +14,7 @@ springdoc:
     path: /v1/api-docs
 
 server:
-  port: 8081
+  port: 8080
   servlet:
     encoding:
       charset: UTF-8

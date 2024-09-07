@@ -7,5 +7,7 @@ public enum ProductCategory {
     MEATS,
     DESSERTS,
     VEGAN_FOOD,
-    KIDS_MEALS
+    KIDS_MEALS,
+    PIZZA,
+    PASTA
 }
