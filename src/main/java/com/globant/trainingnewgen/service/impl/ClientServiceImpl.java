@@ -4,6 +4,7 @@ import com.globant.trainingnewgen.model.dto.ClientDto;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.exception.custom.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
+import com.globant.trainingnewgen.model.entity.OrderStatus;
 import com.globant.trainingnewgen.model.mapper.ClientMapper;
 import com.globant.trainingnewgen.model.entity.Client;
 import com.globant.trainingnewgen.repository.ClientRepository;
@@ -74,10 +75,10 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
     public void deleteClient(String document) {
         var client = validateAndRetrieveClientByDocument(document, null);
         var orders = client.getOrders();
-        orders.forEach(order -> {
-            System.out.println("Deleting order: " + order.getUuid());
-            orderRepository.delete(order);
-        });
+
+        orders.forEach(order -> order.setStatus(OrderStatus.CANCELED));
+        orderRepository.saveAll(orders);
+
         client.setDeleted(true);
         clientRepository.save(client);
     }

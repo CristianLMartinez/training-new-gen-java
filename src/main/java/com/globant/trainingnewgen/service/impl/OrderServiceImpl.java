@@ -4,6 +4,7 @@ import com.globant.trainingnewgen.exception.custom.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import com.globant.trainingnewgen.model.dto.CreateOrderDto;
 import com.globant.trainingnewgen.model.dto.OrderDto;
+import com.globant.trainingnewgen.model.entity.OrderStatus;
 import com.globant.trainingnewgen.model.mapper.OrderMapper;
 import com.globant.trainingnewgen.model.entity.Order;
 import com.globant.trainingnewgen.repository.ClientRepository;
@@ -58,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Order with uuid: %s not found", orderUuid)));
 
         order.setDeliveryDate(deliveredDate);
-        order.setDelivered(Boolean.TRUE);
+        order.setStatus(OrderStatus.DELIVERED);
 
         var orderSaved = orderRepository.save(order);
         return  OrderMapper.entityToOrderDto(orderSaved);

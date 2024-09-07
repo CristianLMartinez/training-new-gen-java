@@ -1,5 +1,6 @@
 package com.globant.trainingnewgen.model.dto;
 
+import com.globant.trainingnewgen.model.entity.OrderStatus;
 import jakarta.validation.constraints.Digits;
 import lombok.Builder;
 
@@ -32,7 +33,7 @@ public record OrderDto(
         @Digits(integer = 10, fraction = 2)
         BigDecimal grandTotal,
 
-        boolean delivered,
+        OrderStatus status,
 
         LocalDateTime deliveryDate
 

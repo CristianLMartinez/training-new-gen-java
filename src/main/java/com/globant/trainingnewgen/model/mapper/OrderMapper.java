@@ -22,7 +22,7 @@ public class OrderMapper {
                 .subTotal(order.getSubTotal())
                 .grandTotal(order.getGrandTotal())
                 .tax(order.getTax())
-                .delivered(order.isDelivered())
+                .status(order.getStatus())
                 .deliveryDate(order.getDeliveryDate())
                 .build();
     }

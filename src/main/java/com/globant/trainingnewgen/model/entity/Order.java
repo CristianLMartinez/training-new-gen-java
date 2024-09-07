@@ -66,18 +66,21 @@ public class Order {
     private BigDecimal grandTotal;
 
     @Column(nullable = false)
-    private boolean delivered = false;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     private LocalDateTime deliveryDate;
 
     @PrePersist
     private void prePersist() {
-        if (uuid == null) {
+        if (uuid == null)
             uuid = UUID.randomUUID();
-        }
-        if (creationDateTime == null) {
+
+        if(status == null)
+            status = OrderStatus.ON_THE_WAY;
+
+        if (creationDateTime == null)
             creationDateTime = LocalDateTime.now();
-        }
     }
 
     @Override
@@ -91,7 +94,7 @@ public class Order {
                 ", subTotal=" + subTotal +
                 ", tax=" + tax +
                 ", grandTotal=" + grandTotal +
-                ", delivered=" + delivered +
+                ", status=" + status +
                 ", deliveryDate=" + deliveryDate +
                 '}';
     }
