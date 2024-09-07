@@ -26,7 +26,8 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
     @Override
     @Transactional
     public ClientDto create(ClientDto clientDto) {
-        var existingClient = clientRepository.findClientByDocument(clientDto.document(), true);
+
+        var existingClient = clientRepository.findClientByDocument(clientDto.document(), null);
 
         validateAndThrowIfExists(
                 existingClient.filter(client -> !client.isDeleted()),
@@ -56,7 +57,7 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
     public void updateClient(String document, ClientDto requestBody) {
         Client existingClient = validateAndRetrieveClientByDocument(document, false);
 
-        if (!hasChanges(existingClient, requestBody)) {
+        if (hasChanges(existingClient, requestBody)) {
             throw new EntityConflictException("No fields were updated.", ExceptionCode.NO_CHANGES);
         }
 
@@ -71,7 +72,7 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
     @Transactional
     @Override
     public void deleteClient(String document) {
-        var client = validateAndRetrieveClientByDocument(document, false);
+        var client = validateAndRetrieveClientByDocument(document, null);
         orderRepository.deleteAll(client.getOrders());
         client.setDeleted(true);
         clientRepository.save(client);
@@ -110,7 +111,7 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
         };
     }
 
-    private Client validateAndRetrieveClientByDocument(String document, boolean isDeleted) {
+    private Client validateAndRetrieveClientByDocument(String document, Boolean isDeleted) {
         return clientRepository.findClientByDocument(document, isDeleted)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("Can't find user with document %s", document),
@@ -119,10 +120,10 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
 
     @Override
     protected boolean hasChanges(Client existingClient, ClientDto requestBody) {
-        return !existingClient.getName().equals(requestBody.name()) ||
-                !existingClient.getEmail().equals(requestBody.email()) ||
-                !existingClient.getPhone().equals(requestBody.phone()) ||
-                !existingClient.getDeliveryAddress().equals(requestBody.deliveryAddress());
+        return existingClient.getName().equals(requestBody.name()) &&
+                existingClient.getEmail().equals(requestBody.email()) &&
+                existingClient.getPhone().equals(requestBody.phone()) &&
+                existingClient.getDeliveryAddress().equals(requestBody.deliveryAddress());
     }
 
 }

@@ -5,24 +5,16 @@ import com.globant.trainingnewgen.model.dto.ProductDto;
 import com.globant.trainingnewgen.exception.custom.ExceptionCode;
 import com.globant.trainingnewgen.exception.custom.EntityConflictException;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
-import com.globant.trainingnewgen.model.dto.SalesData;
-import com.globant.trainingnewgen.model.dto.SalesDataProjection;
-import com.globant.trainingnewgen.model.dto.SalesReportDto;
 import com.globant.trainingnewgen.model.mapper.ProductMapper;
 import com.globant.trainingnewgen.model.entity.Product;
-import com.globant.trainingnewgen.repository.OrderRepository;
 import com.globant.trainingnewgen.repository.ProductRepository;
 import com.globant.trainingnewgen.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -87,7 +79,7 @@ public class ProductServiceImpl extends BaseService<Product, ProductDto> impleme
         );
 
         if (existingProduct.getFantasyName().equals(productDto.fantasyName())) {
-            if (!hasChanges(existingProduct, productDto)) {
+            if (hasChanges(existingProduct, productDto)) {
                 throw new EntityConflictException("No fields were updated.", ExceptionCode.NO_CHANGES);
             }
         } else {
@@ -104,11 +96,11 @@ public class ProductServiceImpl extends BaseService<Product, ProductDto> impleme
 
     @Override
     protected boolean hasChanges(Product existingProduct, ProductDto productDto) {
-        return !existingProduct.getFantasyName().equals(productDto.fantasyName()) ||
-                !existingProduct.getCategory().equals(productDto.category()) ||
-                !existingProduct.getDescription().equals(productDto.description()) ||
-                !existingProduct.getPrice().equals(productDto.price()) ||
-                existingProduct.isAvailable() != productDto.available();
+        return existingProduct.getFantasyName().equals(productDto.fantasyName()) &&
+                existingProduct.getCategory().equals(productDto.category()) &&
+                existingProduct.getDescription().equals(productDto.description()) &&
+                existingProduct.getPrice().equals(productDto.price()) &&
+                existingProduct.isAvailable() == productDto.available();
     }
 
     private void updateExistingProduct(Product existingProduct, ProductDto productDto) {

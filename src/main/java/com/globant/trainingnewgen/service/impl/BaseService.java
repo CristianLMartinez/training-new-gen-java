@@ -19,4 +19,5 @@ public abstract class BaseService<T, D> {
     protected T retrieveOrThrow(Optional<T> entity, ExceptionCode exceptionCode, String errorMessage) {
         return entity.orElseThrow(() -> new ResourceNotFoundException(errorMessage, exceptionCode));
     }
+
 }
