@@ -46,7 +46,8 @@ public class GlobalExceptionHandler {
                 .exception(ex.getExceptionCode().getDescription())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(errorResponse);
     }
 
