@@ -5,10 +5,6 @@ import com.globant.trainingnewgen.model.dto.OrderDto;
 import com.globant.trainingnewgen.service.ClientService;
 import com.globant.trainingnewgen.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +26,7 @@ public class ClientController {
 
     private final ClientService clientService;
     private final OrderService orderService;
-    private final static Logger logger = LoggerFactory.getLogger(ClientController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
 
 
     @Operation(summary = "Create a new client",

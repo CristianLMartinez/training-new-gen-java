@@ -101,6 +101,7 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
         var clients = clientRepository.findAll(sort);
 
         return clients.stream()
+                .filter(client -> !client.isDeleted())
                 .map(ClientMapper::entityToDto)
                 .toList();
     }
