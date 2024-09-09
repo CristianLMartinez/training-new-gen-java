@@ -59,6 +59,7 @@ public class ProductController {
             @PathVariable String date1,
             @PathVariable String date2) {
 
+
         if (!isValidDate(date1) || !isValidDate(date2)) {
             return ResponseEntity.badRequest().body("Invalid date format. Please use YYYYMMDD.");
         }
