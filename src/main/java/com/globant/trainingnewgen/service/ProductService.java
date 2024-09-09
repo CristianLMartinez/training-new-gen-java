@@ -11,6 +11,8 @@ public interface ProductService {
 
     ProductDto create(ProductDto productDto);
 
+    List<ProductDto> getAll();
+
     ProductDto getProductByUuid(UUID uuid);
 
     void updateProduct(UUID uuid, ProductDto productDto);

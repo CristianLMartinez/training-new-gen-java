@@ -39,6 +39,16 @@ public class ProductServiceImpl extends BaseService<Product, ProductDto> impleme
         return ProductMapper.entityToDto(savedProduct);
     }
 
+    @Override
+    public List<ProductDto> getAll() {
+        return productRepository
+                .findAll()
+                .stream()
+                .filter(Product::isDeleted)
+                .map(ProductMapper::entityToDto)
+                .toList();
+    }
+
 
     @Override
     public ProductDto getProductByUuid(UUID uuid) {

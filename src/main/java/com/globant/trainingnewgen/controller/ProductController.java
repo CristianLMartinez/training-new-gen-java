@@ -35,6 +35,12 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        logger.info("fetching all products" );
+        return ResponseEntity.ok(productService.getAll());
+    }
+
     @GetMapping("{uuid}")
     public ResponseEntity<ProductDto> getProductByUuid(@PathVariable UUID uuid) {
         logger.info("Retrieving product {}", uuid);
