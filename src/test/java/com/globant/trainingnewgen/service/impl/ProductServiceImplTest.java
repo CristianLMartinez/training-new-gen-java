@@ -1,0 +1,120 @@
+package com.globant.trainingnewgen.service.impl;
+
+import com.globant.trainingnewgen.model.dto.ProductDto;
+import com.globant.trainingnewgen.model.entity.Product;
+import com.globant.trainingnewgen.repository.ProductRepository;
+import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+public class ProductServiceImplTest {
+
+    @Mock
+    private ProductRepository productRepository;
+
+    @InjectMocks
+    private ProductServiceImpl productService;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    public void testCreateProduct() {
+
+        UUID productId = UUID.randomUUID();
+        String fantasyName = "Sample Product";
+        ProductDto productDto = new ProductDto(productId, fantasyName, null, "Description", BigDecimal.valueOf(100), true);
+
+        Product product = new Product();
+        product.setId(1L);
+        product.setFantasyName("Sample Product");
+
+        when(productRepository.findProductByFantasyName(fantasyName)).thenReturn(Optional.empty());
+        when(productRepository.save(any(Product.class))).thenReturn(product);
+
+        ProductDto result = productService.create(productDto);
+
+        assertNotNull(result);
+        assertEquals("Sample Product", result.fantasyName());
+        verify(productRepository, times(1)).save(any(Product.class));
+    }
+
+    @Test
+    public void testGetProductByUuid() {
+
+        UUID uuid = UUID.randomUUID();
+        Product product = new Product();
+        product.setUuid(uuid);
+
+        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.of(product));
+
+        ProductDto result = productService.getProductByUuid(uuid);
+
+        assertNotNull(result);
+        assertEquals(uuid, result.uuid());
+        verify(productRepository, times(1)).findProductByUuid(uuid);
+    }
+
+    @Test
+    public void testGetProductByUuid_NotFound() {
+        // Arrange
+        UUID uuid = UUID.randomUUID();
+        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> {
+            productService.getProductByUuid(uuid);
+        });
+
+        verify(productRepository, times(1)).findProductByUuid(uuid);
+    }
+
+    @Test
+    public void testDeleteProduct() {
+
+        UUID uuid = UUID.randomUUID();
+        Product product = new Product();
+        product.setId(1L);
+        product.setUuid(uuid);
+        product.setDeleted(false);
+
+        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.of(product));
+        when(productRepository.save(any(Product.class))).thenReturn(product);
+
+        productService.deleteProduct(uuid);
+
+        assertTrue(product.isDeleted());
+        verify(productRepository, times(1)).findProductByUuid(uuid);
+        verify(productRepository, times(1)).save(product);
+    }
+
+    @Test
+    public void testUpdateProduct() {
+
+        UUID uuid = UUID.randomUUID();
+        Product product = new Product();
+        product.setId(1L);
+        product.setUuid(uuid);
+        product.setFantasyName("Existing Product");
+
+        ProductDto productDto = new ProductDto(uuid, "Updated Product", null, "Updated Description", BigDecimal.valueOf(200), false);
+
+        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.of(product));
+
+        productService.updateProduct(uuid, productDto);
+
+        verify(productRepository, times(1)).save(product);
+    }
+}

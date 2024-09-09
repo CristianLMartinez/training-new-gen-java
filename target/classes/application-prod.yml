@@ -1,0 +1,14 @@
+spring:
+
+  profiles:
+    active: test
+
+  application:
+    name: training-new-gen
+
+  jpa:
+    show-sql: true
+
+  sql:
+    init:
+      mode: always

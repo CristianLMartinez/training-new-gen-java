@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: test
+
+  application:
+    name: training-new-gen
+
+  jackson:
+    time-zone: America/Bogota
+    date-format: com.fasterxml.jackson.databind.util.StdDateFormat
+
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+
+server:
+  port: 8081
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: ERROR
+
