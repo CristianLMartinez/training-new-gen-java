@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 public class MenuController {
 
     private final MenuFactory menuFactory;
-    private final static Logger logger = LoggerFactory.getLogger(MenuController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
     @GetMapping
     public ResponseEntity<byte[]> getMenu(HttpServletRequest request) {

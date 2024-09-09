@@ -27,7 +27,7 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
     @Transactional
     public ClientDto create(ClientDto clientDto) {
 
-        var existingClient = clientRepository.findClientByDocument(clientDto.document(), null);
+        var existingClient = clientRepository.findClientByDocument(clientDto.document());
 
         validateAndThrowIfExists(
                 existingClient.filter(client -> !client.isDeleted()),

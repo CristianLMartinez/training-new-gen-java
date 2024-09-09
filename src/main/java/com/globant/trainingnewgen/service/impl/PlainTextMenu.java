@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class PlainTextMenu implements MenuService {
 
     private final ProductRepository productRepository;
-    private final static Logger logger = LoggerFactory.getLogger(PlainTextMenu.class);
+    private static final Logger logger = LoggerFactory.getLogger(PlainTextMenu.class);
 
     @Override
     public void generateDocument(ByteArrayOutputStream outputStream) {

@@ -1,15 +1,15 @@
 spring:
   datasource:
-    username: postgres
-    url: jdbc:postgresql://localhost:5432/grandma_db
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
     password: password
-
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
   sql:
     init:
       mode: always
-      
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-    defer-datasource-initialization: true

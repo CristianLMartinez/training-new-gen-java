@@ -45,7 +45,7 @@ class OrderControllerTest {
     void testCreateOrder() throws Exception {
         var responseBody = OrderDto.builder()
                 .uuid(UUID.fromString("be1cf063-79a8-4f25-9f04-18a157f5242c"))
-                .creationDateTime(LocalDateTime.now())
+                .creationDateTime(LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))))
                 .clientDocument("CC-123456789")
                 .productUuid(UUID.fromString("be1cf063-79a8-4f25-9f04-18a157f5249d"))
                 .quantity(2)

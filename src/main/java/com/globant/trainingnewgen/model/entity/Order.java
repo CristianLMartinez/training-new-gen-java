@@ -67,7 +67,7 @@ public class Order {
     private BigDecimal grandTotal;
 
     @Column(nullable = false)
-    private boolean delivered = false;
+    private boolean delivered;
 
     private LocalDateTime deliveryDate;
 
@@ -76,6 +76,11 @@ public class Order {
         if (uuid == null) {
             uuid = UUID.randomUUID();
         }
+
+        if (delivered) {
+            delivered = false;
+        }
+
         if (creationDateTime == null) {
             creationDateTime = LocalDateTime.now();
         }
