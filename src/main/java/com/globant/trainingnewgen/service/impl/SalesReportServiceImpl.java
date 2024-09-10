@@ -44,7 +44,7 @@ public class SalesReportServiceImpl implements SalesReportService {
 
         List<SalesData> salesData = salesDataProjections.stream()
                 .map(this::mapToSalesData)
-                .collect(Collectors.toList());
+                .toList();
 
         long maxUnitsSold = salesData.stream().mapToLong(SalesData::unitsSold).max().orElse(0);
         long minUnitsSold = salesData.stream().mapToLong(SalesData::unitsSold).min().orElse(0);
@@ -79,7 +79,7 @@ public class SalesReportServiceImpl implements SalesReportService {
         return salesData.stream()
                 .filter(s -> s.unitsSold() == unitsSold)
                 .map(SalesData::productName)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
 

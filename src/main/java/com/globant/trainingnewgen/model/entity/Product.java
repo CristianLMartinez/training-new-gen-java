@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -47,14 +48,14 @@ public class Product {
 
     private boolean isDeleted = Boolean.FALSE;
 
-    /**
-     * Pre persist inject the value in the entity before jpa insert the value in the database for first time
-     */
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItems> orderProducts;
+
     @PrePersist
     private void generateUUID() {
         if (uuid == null) {
             uuid = UUID.randomUUID();
         }
     }
-
 }
+

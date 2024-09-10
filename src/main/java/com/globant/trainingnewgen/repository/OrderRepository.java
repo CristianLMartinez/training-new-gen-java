@@ -28,18 +28,22 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByClientDocument(String document);
 
     @Query("""
-            SELECT
-            p.fantasyName AS fantasyName,
-            SUM(o.quantity) AS totalQuantity,
-            SUM(o.quantity * p.price) AS totalRevenue
-            FROM Order o JOIN o.product p
-            WHERE FUNCTION('date', o.creationDateTime) BETWEEN :startDate AND :endDate
-            GROUP BY p.fantasyName HAVING SUM(o.quantity) > 0
-            """)
+        SELECT
+        p.fantasyName AS fantasyName,
+        SUM(op.quantity) AS totalQuantity,
+        SUM(op.quantity * p.price) AS totalRevenue
+        FROM Order o
+        JOIN o.orderItems op
+        JOIN op.product p
+        WHERE FUNCTION('date', o.creationDateTime) BETWEEN :startDate AND :endDate
+        GROUP BY p.fantasyName
+        HAVING SUM(op.quantity) > 0
+        """)
     List<SalesDataProjection> findSalesDataBetweenDates(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+
 
 
 }

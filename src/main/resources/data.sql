@@ -57,17 +57,34 @@ VALUES ('CE-123456789', 'John Doe', 'john.doe@example.com', '123-4567890', '123 
        ('TI-012345679', 'Rachel Adams', 'rachel.adams@example.com', '012-3456790', '1717 Pine St', FALSE);
 
 
-INSERT INTO orders (uuid, product_id, creation_date_time, client_document, quantity, extra_information, sub_total, tax, grand_total, delivered, delivery_date)
+INSERT INTO orders (uuid, creation_date_time, client_document, extra_information, sub_total, tax, grand_total, delivered, delivery_date)
 VALUES
-    ('b4d7c15d-8b1d-4d4d-b8e1-4d4e7a82d2a2', 'be1cf063-79a8-4f25-9f04-18a157f5249d', '2024-09-06T10:15:00', 'CE-123456789', 2, 'Extra ketchup on the side', 11.98, 2.28, 14.26, FALSE, NULL),
-    ('f4e2c35a-0e1b-45a1-a1e5-2b4c7e6b2e5d', 'b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e', '2024-09-06T11:00:00', 'CC-234567890', 1, 'No spicy sauce', 6.99, 1.33, 8.32, FALSE, NULL),
-    ('c9d1e2f3-8a7b-4c3e-9d1e-4f5d6e7a8b9c', 'a4e2b14d-d1d9-4b82-a1d2-8b4d4f1c0f5f', '2024-09-06T12:30:00', 'TI-345678901', 3, 'Add pickles', 19.47, 3.69, 23.16, FALSE, NULL),
-    ('d0f2e3c4-1b5a-4d6e-9f2e-4b6a7d8c9e0f', 'b7a2c9f1-0e2c-4b54-845b-9c4e3a6b9e3a', '2024-09-06T14:00:00', 'P-456789012', 2, 'Spicy, no onions', 14.98, 2.85, 17.83, FALSE, NULL),
-    ('e1c2d3e4-5f6a-4b8e-9d1e-3c4f7e8a9b0d', 'e5f2d6c8-3f3e-4a7c-8c1a-d1c7b4a2e1f5', '2024-09-06T15:45:00', 'CE-567890123', 1, 'Add extra sauce', 12.99, 2.47, 15.46, FALSE, NULL),
-    ('a2d3e4f5-6b7c-4e9d-8a1b-2c3d4e5f6a7b', '238f3d59-c10d-4745-913d-8f9e0d36532b', '2024-09-06T16:20:00', 'CE-678901234', 4, 'Include utensils', 19.96, 3.79, 23.75, FALSE, NULL),
-    ('b3e4d5f6-7c8d-4e1f-9a2b-3c4d5e6f7a8b', 'a9d2b3e4-6f7a-4e8d-9b2c-4e5d6f7a8b9c', '2024-09-06T17:00:00', 'CC-789012345', 2, 'Add lemon', 13.98, 2.66, 16.64, FALSE, NULL),
-    ('c4f5d6e7-8b9c-4e2d-9a1b-4c5d6e7f8a9b', 'c6e8b7d2-1b3a-4b8e-9d9a-8f2b3a4e5d6f', '2024-09-06T18:30:00', 'TI-890123456', 3, 'No cilantro', 38.97, 7.41, 46.38, FALSE, NULL),
-    ('d5e6f7a8-9b0c-4e1d-9a2b-5c6d7e8f9a0b', 'f7e8c9d1-0d3a-4b2e-a1d9-8b7d6f5e3c1f', '2024-09-06T19:15:00', 'P-901234567', 1, 'Extra cream cheese', 5.49, 1.04, 6.53, FALSE, NULL),
-    ('e6f7a8b9-0c1d-4e2e-9a3b-6c7d8e9f0b1c', 'd2e8f9a0-1b3c-4d6e-8a7b-9e0c1d2f3e4f', '2024-09-06T20:00:00', 'CE-012345678', 2, 'No garlic', 23.98, 4.56, 28.54, FALSE, NULL),
-    ('f7a8b9c0-1d2e-4e3f-9a4b-7c8d9e0f1a2b', 'f4e8b7d1-2c4d-4e9a-8b6d-3c5f7a8b9e0c', '2024-09-06T21:00:00', 'CC-123456780', 1, 'No sugar', 4.79, 0.91, 5.70, FALSE, NULL);
+    ('2cf7a83b-814b-41ab-a028-f1d6e5a6bde7', '2024-09-07 12:00:00', 'CE-123456789', 'Leave at the front door', 25.97, 2.60, 28.57, FALSE, NULL),
+    ('0ba4788b-1d4b-492d-b42e-1bde1346d3e6', '2024-09-07 14:00:00', 'CC-234567890', 'Call when arrived', 17.98, 1.80, 19.78, FALSE, NULL),
+    ('5cf7e39b-5eb2-474a-a6d6-f17e5b8d8e3f', '2024-09-06 11:30:00', 'TI-345678901', 'Deliver to the side entrance', 13.98, 1.40, 15.38, FALSE, NULL),
+    ('bd93f908-4591-41d2-987a-7bdf9d34ea6c', '2024-09-06 13:45:00', 'P-456789012', 'No contact delivery', 23.98, 2.40, 26.38, FALSE, NULL),
+    ('da2437e5-d785-46cf-98da-9937434c84f1', '2024-09-06 16:00:00', 'CE-567890123', 'Ring the bell', 30.97, 3.10, 34.07, FALSE, NULL),
+    ('a48c783a-4e49-4092-8f2f-fc3f63409e5f', '2024-09-07 09:30:00', 'CE-678901234', 'Call me when you arrive', 11.98, 1.20, 13.18, FALSE, NULL),
+    ('cfe8d981-46d4-4894-8c61-f17e4b6c8271', '2024-09-05 18:00:00', 'CC-789012345', 'Do not knock, leave at the door', 21.97, 2.20, 24.17, FALSE, NULL),
+    ('aed9b3e4-3567-4878-b4b9-66c4ef81d0ed', '2024-09-05 19:30:00', 'TI-890123456', 'Deliver to the back door', 9.99, 1.00, 10.99, FALSE, NULL),
+    ('c9234edb-6d1a-4e92-a0e2-69c927934c43', '2024-09-07 15:00:00', 'P-901234567', 'Ring the bell twice', 16.48, 1.60, 18.08, FALSE, NULL),
+    ('4a7e273a-014e-48cf-a7e9-5d2a79a6a9e1', '2024-09-06 20:00:00', 'CE-012345678', 'Call on arrival', 22.97, 2.30, 25.27, FALSE, NULL);
 
+INSERT INTO order_has_products (order_id, product_id, quantity)
+VALUES
+    (1, 1, 8),  -- Orden 1: 2 Classic Burgers
+    (1, 2, 1),  -- Orden 1: 1 Cheese Pizza
+    (2, 5, 2),  -- Orden 2: 2 Chocolate Cakes
+    (2, 7, 1),  -- Orden 2: 1 BBQ Chicken
+    (3, 4, 1),  -- Orden 3: 1 Fish Taco
+    (3, 3, 2),  -- Orden 3: 2 Chicken Wings
+    (4, 6, 2),  -- Orden 4: 2 Medieval Burgers
+    (5, 10, 1), -- Orden 5: 1 Buffalo Wings
+    (5, 9, 2),  -- Orden 5: 2 Falafel Wraps
+    (6, 13, 1), -- Orden 6: 1 Greek Salad
+    (7, 15, 2), -- Orden 7: 2 Carrot Cakes
+    (8, 1, 1),  -- Orden 8: 1 Classic Burger
+    (9, 16, 1), -- Orden 9: 1 Mango Smoothie
+    (9, 17, 1), -- Orden 9: 1 Pasta Alfredo
+    (10, 17, 1),-- Orden 10: 1 Apple Pie
+    (10, 8, 2); -- Orden 10: 2 Veggie Burgers

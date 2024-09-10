@@ -3,8 +3,6 @@ package com.globant.trainingnewgen.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -33,22 +32,15 @@ public class Order {
     @Column(nullable = false)
     private UUID uuid;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "product_id", referencedColumnName = "uuid", nullable = false)
-    private Product product;
-
     @Column(nullable = false, updatable = false)
     private LocalDateTime creationDateTime;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItems> orderItems;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_document", referencedColumnName = "document", nullable = false)
     private Client client;
-
-    @Min(1)
-    @Max(99)
-    @Column(nullable = false)
-    private int quantity;
 
     @Size(max = 511)
     @Column(nullable = false, length = 511)
@@ -86,19 +78,4 @@ public class Order {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", uuid=" + uuid +
-                ", creationDateTime=" + creationDateTime +
-                ", quantity=" + quantity +
-                ", extraInformation='" + extraInformation + '\'' +
-                ", subTotal=" + subTotal +
-                ", tax=" + tax +
-                ", grandTotal=" + grandTotal +
-                ", delivered=" + delivered +
-                ", deliveryDate=" + deliveryDate +
-                '}';
-    }
 }

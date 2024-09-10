@@ -18,8 +18,21 @@ headers {
 body:json {
   {
     "clientDocument": "CC-123456",
-    "productUuid": "be1cf063-79a8-4f25-9f04-18a157f5249d",
-    "quantity": 2,
-    "extraInformation": ""
+    "products": [
+      {
+        "productUuid": "be1cf063-79a8-4f25-9f04-18a157f249d",
+        "quantity": 2
+      },
+      {
+        "productUuid": "be1cf063-79a8-4f25-9f04-18a157f5241c",
+        "quantity": 1
+      },
+      {
+        "productUuid": "be1cf063-79a8-4f25-9f04-18a157f5242e",
+        "quantity": 3
+      }
+    ],
+    "extraInformation": "Please deliver between 6-7 PM"
   }
+  
 }

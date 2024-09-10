@@ -3,6 +3,7 @@ package com.globant.trainingnewgen.model.dto;
 import jakarta.validation.constraints.Digits;
 import lombok.Builder;
 
+import java.util.List;
 import java.util.UUID;
 
 import java.math.BigDecimal;
@@ -17,9 +18,7 @@ public record OrderDto(
 
         String clientDocument,
 
-        UUID productUuid,
-
-        int quantity,
+        List<OrderItemsDto> products,
 
         String extraInformation,
 

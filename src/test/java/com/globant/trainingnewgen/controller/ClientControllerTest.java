@@ -142,7 +142,6 @@ class ClientControllerTest {
         var responseBody = List.of(
                 OrderDto.builder()
                         .uuid(UUID.randomUUID())
-                        .quantity(1)
                         .extraInformation("Extra info")
                         .subTotal(BigDecimal.valueOf(100))
                         .tax(BigDecimal.valueOf(10))
@@ -154,7 +153,6 @@ class ClientControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/clients/CC-123456/orders"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].quantity").value(responseBody.get(0).quantity()))
                 .andExpect(jsonPath("$[0].extraInformation").value(responseBody.get(0).extraInformation()))
                 .andExpect(jsonPath("$[0].subTotal").value(responseBody.get(0).subTotal()))
                 .andExpect(jsonPath("$[0].tax").value(responseBody.get(0).tax()))
