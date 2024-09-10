@@ -77,7 +77,7 @@ public class ProductServiceImplTest {
 
         UUID uuid = UUID.randomUUID();
         when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.empty());
-        
+
         assertThrows(ResourceNotFoundException.class, () -> {
             productService.getProductByUuid(uuid);
         });
