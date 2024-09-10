@@ -4,6 +4,8 @@ package com.globant.trainingnewgen.controller;
 import com.globant.trainingnewgen.model.dto.CreateOrderDto;
 import com.globant.trainingnewgen.model.dto.OrderDto;
 import com.globant.trainingnewgen.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Tag(name = "Orders rest API", description = "Endpoints to manage orders")
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
-
+    @Operation(summary = "Create an order", description = "Creates a new order with the provided details.")
     @PostMapping
     ResponseEntity<OrderDto> createOrder(@RequestBody @Valid CreateOrderDto order) {
         logger.info("Creating order {}", order);
@@ -40,6 +42,7 @@ public class OrderController {
     }
 
     //  patch mapping
+    @Operation(summary = "Mark an order as delivered", description = "Updates the delivery timestamp of an order.")
     @PatchMapping("{uuid}/delivered/{timestamp}")
     ResponseEntity<OrderDto> updateDeliveredState(
             @PathVariable("uuid") UUID uuid,
