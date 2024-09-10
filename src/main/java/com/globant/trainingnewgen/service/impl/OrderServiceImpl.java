@@ -67,7 +67,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getOrdersByClientDocument(String document) {
-        var orders = orderRepository.findByClientDocument(document);
+        var client = clientRepository.findClientByDocument(document, false)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Client with uuid: %s not found", document), ExceptionCode.CLIENT_NOT_FOUND));
+        var orders = orderRepository.findByClientDocument(client.getDocument());
         return orders.stream().map(OrderMapper::entityToOrderDto).toList();
     }
 

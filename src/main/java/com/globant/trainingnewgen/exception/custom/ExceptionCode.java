@@ -29,6 +29,8 @@ public enum ExceptionCode {
 
     ILLEGAL_ARGUMENT_EXCEPTION("UE-1012", "Illegal value exception"),
 
+    INVALID_REQUEST_BODY("UE-1013", "Invalid request body"),
+
     SERVER_ERROR("SE-2001", "Server error exception");
 
 
