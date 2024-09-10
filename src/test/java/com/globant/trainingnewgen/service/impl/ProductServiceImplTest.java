@@ -5,6 +5,7 @@ import com.globant.trainingnewgen.model.entity.Product;
 import com.globant.trainingnewgen.repository.ProductRepository;
 import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,6 +18,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@DisplayName("Product Service Test")
 public class ProductServiceImplTest {
 
     @Mock
@@ -31,6 +33,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test create a new product")
     public void testCreateProduct() {
 
         UUID productId = UUID.randomUUID();
@@ -52,6 +55,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test get product by uuid")
     public void testGetProductByUuid() {
 
         UUID uuid = UUID.randomUUID();
@@ -68,12 +72,12 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test get product by uuid not found")
     public void testGetProductByUuid_NotFound() {
-        // Arrange
+
         UUID uuid = UUID.randomUUID();
         when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.empty());
-
-        // Act & Assert
+        
         assertThrows(ResourceNotFoundException.class, () -> {
             productService.getProductByUuid(uuid);
         });
@@ -82,6 +86,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test delete product by uuid")
     public void testDeleteProduct() {
 
         UUID uuid = UUID.randomUUID();
@@ -101,15 +106,16 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test update product by uuid")
     public void testUpdateProduct() {
 
         UUID uuid = UUID.randomUUID();
         Product product = new Product();
         product.setId(1L);
         product.setUuid(uuid);
-        product.setFantasyName("Existing Product");
+        product.setFantasyName("Hot-dog");
 
-        ProductDto productDto = new ProductDto(uuid, "Updated Product", null, "Updated Description", BigDecimal.valueOf(200), false);
+        ProductDto productDto = new ProductDto(uuid, "Updated Product", null, "without onion", BigDecimal.valueOf(200), false);
 
         when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.of(product));
 
