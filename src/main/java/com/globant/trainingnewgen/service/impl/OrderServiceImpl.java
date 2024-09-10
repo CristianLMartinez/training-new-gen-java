@@ -40,12 +40,6 @@ public class OrderServiceImpl implements OrderService {
                         String.format("Client with document: %s not found", orderDto.clientDocument()),
                         ExceptionCode.CLIENT_NOT_FOUND));
 
-        if (client.isDeleted()) {
-            throw new ResourceNotFoundException(
-                    String.format("Client with document: %s not found", orderDto.clientDocument()),
-                    ExceptionCode.CLIENT_NOT_FOUND);
-        }
-
         var order = orderDto.toEntity();
         order.setClient(client);
 
