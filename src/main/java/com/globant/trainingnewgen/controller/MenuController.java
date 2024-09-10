@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 @RestController
 @RequestMapping("/menu")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class MenuController {
 
     private final MenuFactory menuFactory;
