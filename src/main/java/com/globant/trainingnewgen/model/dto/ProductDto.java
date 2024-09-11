@@ -2,7 +2,7 @@ package com.globant.trainingnewgen.model.dto;
 
 import com.globant.trainingnewgen.model.entity.ProductCategory;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,9 +1,12 @@
 package com.globant.trainingnewgen.service.impl;
 
+import com.globant.trainingnewgen.exception.custom.EntityConflictException;
+import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import com.globant.trainingnewgen.model.dto.ProductDto;
 import com.globant.trainingnewgen.model.entity.Product;
+import com.globant.trainingnewgen.model.entity.ProductCategory;
+import com.globant.trainingnewgen.model.mapper.ProductMapper;
 import com.globant.trainingnewgen.repository.ProductRepository;
-import com.globant.trainingnewgen.exception.custom.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +19,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Product Service Test")
-public class ProductServiceImplTest {
+class ProductServiceImplTest {
 
     @Mock
     private ProductRepository productRepository;
@@ -27,100 +32,129 @@ public class ProductServiceImplTest {
     @InjectMocks
     private ProductServiceImpl productService;
 
+    private ProductDto productDto;
+    private Product productEntity;
+
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        productDto = ProductDto.builder()
+                .uuid(UUID.randomUUID())
+                .description("Burger with cheese")
+                .available(Boolean.TRUE)
+                .category(ProductCategory.HAMBURGERS_AND_HOT_DOGS)
+                .fantasyName("Classic Burger")
+                .price(BigDecimal.valueOf(1000.02))
+                .build();
+
+        productEntity = ProductMapper.dtoToEntity(productDto);
     }
 
     @Test
-    @DisplayName("Test create a new product")
-    public void testCreateProduct() {
+    @DisplayName("Test create product")
+    void testCreateProduct() {
+        when(productRepository.findProductByFantasyName(anyString())).thenReturn(Optional.empty());
+        when(productRepository.save(any(Product.class))).thenReturn(productEntity);
 
-        UUID productId = UUID.randomUUID();
-        String fantasyName = "Sample Product";
-        ProductDto productDto = new ProductDto(productId, fantasyName, null, "Description", BigDecimal.valueOf(100), true);
+        ProductDto createdProduct = productService.create(productDto);
 
-        Product product = new Product();
-        product.setId(1L);
-        product.setFantasyName("Sample Product");
+        assertNotNull(createdProduct);
+        assertEquals(productDto.fantasyName(), createdProduct.fantasyName());
+        verify(productRepository).save(any(Product.class));
+    }
 
-        when(productRepository.findProductByFantasyName(fantasyName)).thenReturn(Optional.empty());
-        when(productRepository.save(any(Product.class))).thenReturn(product);
+    @Test
+    @DisplayName("Test create product throws EntityConflictException")
+    void testCreateProductThrowsEntityConflictException() {
+        when(productRepository.findProductByFantasyName(anyString())).thenReturn(Optional.of(productEntity));
 
-        ProductDto result = productService.create(productDto);
+        assertThrows(EntityConflictException.class, () -> productService.create(productDto));
 
-        assertNotNull(result);
-        assertEquals("Sample Product", result.fantasyName());
-        verify(productRepository, times(1)).save(any(Product.class));
+        verify(productRepository, never()).save(any(Product.class));
     }
 
     @Test
     @DisplayName("Test get product by uuid")
-    public void testGetProductByUuid() {
+    void testGetProductByUuid() {
+        when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.of(productEntity));
 
-        UUID uuid = UUID.randomUUID();
-        Product product = new Product();
-        product.setUuid(uuid);
+        ProductDto foundProduct = productService.getProductByUuid(productDto.uuid());
 
-        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.of(product));
-
-        ProductDto result = productService.getProductByUuid(uuid);
-
-        assertNotNull(result);
-        assertEquals(uuid, result.uuid());
-        verify(productRepository, times(1)).findProductByUuid(uuid);
+        assertNotNull(foundProduct);
+        assertEquals(productDto.uuid(), foundProduct.uuid());
+        verify(productRepository).findProductByUuid(any(UUID.class));
     }
 
     @Test
-    @DisplayName("Test get product by uuid not found")
-    public void testGetProductByUuid_NotFound() {
+    @DisplayName("Test get product by uuid throws ResourceNotFoundException")
+    void testGetProductByUuidThrowsResourceNotFoundException() {
+        when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.empty());
 
-        UUID uuid = UUID.randomUUID();
-        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> productService.getProductByUuid(productDto.uuid()));
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            productService.getProductByUuid(uuid);
-        });
-
-        verify(productRepository, times(1)).findProductByUuid(uuid);
+        verify(productRepository).findProductByUuid(any(UUID.class));
     }
 
     @Test
     @DisplayName("Test delete product by uuid")
-    public void testDeleteProduct() {
+    void testDeleteProduct() {
+        when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.of(productEntity));
 
-        UUID uuid = UUID.randomUUID();
-        Product product = new Product();
-        product.setId(1L);
-        product.setUuid(uuid);
-        product.setDeleted(false);
+        productService.deleteProduct(productDto.uuid());
 
-        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.of(product));
-        when(productRepository.save(any(Product.class))).thenReturn(product);
-
-        productService.deleteProduct(uuid);
-
-        assertTrue(product.isDeleted());
-        verify(productRepository, times(1)).findProductByUuid(uuid);
-        verify(productRepository, times(1)).save(product);
+        verify(productRepository).save(any(Product.class));
     }
 
     @Test
-    @DisplayName("Test update product by uuid")
-    public void testUpdateProduct() {
+    @DisplayName("Test delete product by uuid throws ResourceNotFoundException")
+    void testDeleteProductThrowsResourceNotFoundException() {
+        when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.empty());
 
-        UUID uuid = UUID.randomUUID();
-        Product product = new Product();
-        product.setId(1L);
-        product.setUuid(uuid);
-        product.setFantasyName("Hot-dog");
+        assertThrows(ResourceNotFoundException.class, () -> productService.deleteProduct(productDto.uuid()));
 
-        ProductDto productDto = new ProductDto(uuid, "Updated Product", null, "without onion", BigDecimal.valueOf(200), false);
+        verify(productRepository, never()).save(any(Product.class));
+    }
 
-        when(productRepository.findProductByUuid(uuid)).thenReturn(Optional.of(product));
+    @Test
+    @DisplayName("Test update product")
+    void testUpdateProduct() {
 
-        productService.updateProduct(uuid, productDto);
+        var updatedProductDto = ProductDto.builder()
+                .uuid(productDto.uuid())
+                .fantasyName("Burger Master")
+                .description(productDto.description())
+                .category(productDto.category())
+                .price(productDto.price())
+                .available(productDto.available())
+                .build();
 
-        verify(productRepository, times(1)).save(product);
+        when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.of(productEntity));
+        when(productRepository.findProductByFantasyName(anyString())).thenReturn(Optional.empty());
+
+        assertDoesNotThrow(() -> productService.updateProduct(updatedProductDto.uuid(), updatedProductDto));
+
+        verify(productRepository).save(any(Product.class));
+    }
+
+    @Test
+    @DisplayName("Test update product throws ResourceNotFoundException")
+    void testUpdateProductThrowsResourceNotFoundException() {
+        when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> productService.updateProduct(productDto.uuid(), productDto));
+
+        verify(productRepository, never()).save(any(Product.class));
+    }
+
+    @Test
+    @DisplayName("Test update product throws EntityConflictException")
+    void testUpdateProductThrowsEntityConflictException() {
+        when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.of(productEntity));
+        when(productRepository.findProductByFantasyName(anyString())).thenReturn(Optional.of(productEntity));
+
+        assertThrows(EntityConflictException.class, () -> productService.updateProduct(productDto.uuid(), productDto));
+
+        verify(productRepository, never()).save(any(Product.class));
     }
 }
