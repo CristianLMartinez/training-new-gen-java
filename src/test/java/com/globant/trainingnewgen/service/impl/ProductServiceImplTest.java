@@ -40,7 +40,7 @@ class ProductServiceImplTest {
         MockitoAnnotations.openMocks(this);
 
         productDto = ProductDto.builder()
-                .uuid(UUID.randomUUID())
+                .uuid(UUID.fromString("be1cf063-79a8-4f25-9f04-18a157f5249d"))
                 .description("Burger with cheese")
                 .available(Boolean.TRUE)
                 .category(ProductCategory.HAMBURGERS_AND_HOT_DOGS)
@@ -103,7 +103,7 @@ class ProductServiceImplTest {
         String fantasyName = "Burger";
 
         ProductDto secondProductDto = ProductDto.builder()
-                .uuid(UUID.randomUUID())
+                .uuid(UUID.fromString("be1cf062-79a8-4f25-9f04-18a157f3345a"))
                 .description("Spicy Chicken Burger")
                 .available(Boolean.TRUE)
                 .category(ProductCategory.HAMBURGERS_AND_HOT_DOGS)
