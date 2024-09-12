@@ -21,7 +21,6 @@ import java.util.List;
 public class ClientServiceImpl extends BaseService<Client, ClientDto> implements ClientService {
 
     private final ClientRepository clientRepository;
-    private final OrderRepository orderRepository;
 
     @Override
     @Transactional
