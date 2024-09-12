@@ -30,6 +30,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+
     @Operation(summary = "Create an order", description = "Creates a new order with the provided details.")
     @PostMapping
     ResponseEntity<OrderDto> createOrder(@RequestBody @Valid CreateOrderDto order) {
@@ -39,7 +40,6 @@ public class OrderController {
                 .body(orderService.create(order));
     }
 
-    //  patch mapping
     @Operation(summary = "Mark an order as delivered", description = "Updates the delivery timestamp of an order.")
     @PatchMapping("{uuid}/delivered/{timestamp}")
     ResponseEntity<OrderDto> updateDeliveredState(
