@@ -91,7 +91,7 @@ public class OrderServiceImplTest {
                 .creationDateTime(LocalDateTime.now())
                 .build();
 
-        CreateOrderDto createOrderDto = CreateOrderDto.builder()
+        createOrderDto = CreateOrderDto.builder()
                 .clientDocument(client.getDocument())
                 .products(orderItemsDtoList)
                 .extraInformation("informacion extra").build();
