@@ -55,6 +55,10 @@ public class ProductServiceImpl extends BaseService<Product, ProductDto> impleme
         var product = productRepository.findProductByUuid(uuid)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with uuid %s not found", uuid), ExceptionCode.COMBO_NOT_FOUND));
 
+        if(product.isDeleted()){
+            throw new ResourceNotFoundException(String.format("Product with uuid %s not found", uuid), ExceptionCode.COMBO_NOT_FOUND);
+        }
+
         return ProductMapper.entityToDto(product);
     }
 

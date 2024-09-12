@@ -56,7 +56,7 @@ public class ClientServiceImpl extends BaseService<Client, ClientDto> implements
     public void updateClient(String document, ClientDto requestBody) {
         Client existingClient = validateAndRetrieveClientByDocument(document, false);
 
-        if (!hasChanges(existingClient, requestBody)) {
+        if (hasChanges(existingClient, requestBody)) {
             throw new EntityConflictException("No fields were updated.", ExceptionCode.NO_CHANGES);
         }
 
