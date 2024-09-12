@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -96,6 +97,51 @@ class ProductServiceImplTest {
         verify(productRepository).findProductByUuid(any(UUID.class));
     }
 
+    @Test
+    @DisplayName("Test search products by fantasy name")
+    void testSearchProductsByFantasyName() {
+        String fantasyName = "Burger";
+
+        ProductDto secondProductDto = ProductDto.builder()
+                .uuid(UUID.randomUUID())
+                .description("Spicy Chicken Burger")
+                .available(Boolean.TRUE)
+                .category(ProductCategory.HAMBURGERS_AND_HOT_DOGS)
+                .fantasyName("Spicy Burger")
+                .price(BigDecimal.valueOf(1200.00))
+                .build();
+
+        List<Product> mockProducts = List.of(
+                ProductMapper.dtoToEntity(productDto),
+                ProductMapper.dtoToEntity(secondProductDto)
+        );
+
+        when(productRepository.searchByFantasyName(fantasyName)).thenReturn(mockProducts);
+
+        List<ProductDto> foundProducts = productService.searchProductsByFantasyName(fantasyName);
+
+        assertNotNull(foundProducts);
+        assertEquals(2, foundProducts.size());
+        assertEquals(productDto.fantasyName(), foundProducts.get(0).fantasyName());
+        assertEquals(secondProductDto.fantasyName(), foundProducts.get(1).fantasyName());
+
+        verify(productRepository).searchByFantasyName(fantasyName);
+    }
+
+    @Test
+    @DisplayName("Test search products by fantasy name with no results")
+    void testSearchProductsByFantasyNameNoResults() {
+        String fantasyName = "Nonexistent Burger";
+
+        when(productRepository.searchByFantasyName(fantasyName)).thenReturn(List.of());
+
+        List<ProductDto> foundProducts = productService.searchProductsByFantasyName(fantasyName);
+
+        assertNotNull(foundProducts);
+        assertTrue(foundProducts.isEmpty());
+
+        verify(productRepository).searchByFantasyName(fantasyName);
+    }
 
 
     @Test
