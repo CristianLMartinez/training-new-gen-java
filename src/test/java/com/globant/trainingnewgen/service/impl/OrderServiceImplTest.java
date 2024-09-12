@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -25,7 +24,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -46,24 +44,28 @@ public class OrderServiceImplTest {
     @InjectMocks
     private OrderServiceImpl orderService;
 
+    private Product product;
+    private UUID productUuid;
+    private Client client;
+    private List<OrderItemsDto> orderItemsDtoList;
+    private List<OrderItems> orderItemsList;
+    private Order order;
+    private CreateOrderDto createOrderDto;
 
-    @Test
-    public void testCreateOrders() {
+    @BeforeEach
+    void setUp() {
 
-        UUID productUuid = UUID.fromString("be1cf063-79a8-4f25-9f04-18a157f5242c");
-        String clientDocument = "1234567890";
-        int quantity = 5;
-        BigDecimal pricePerUnit = new BigDecimal("100.00");
+        productUuid = UUID.fromString("be1cf063-79a8-4f25-9f04-18a157f5242c");
 
-        Product product = new Product();
-        product.setId(1L);
-        product.setUuid(productUuid);
-        product.setFantasyName("Product Name");
-        product.setDescription("Product Description");
-        product.setPrice(pricePerUnit);
+        product = Product.builder()
+                .id(1L)
+                .uuid(productUuid)
+                .fantasyName("Product Name")
+                .description("Product Description")
+                .price(new BigDecimal("100.00"))
+                .build();
 
-
-        Client client = Client.builder()
+        client = Client.builder()
                 .id(1L)
                 .document("CC-123456")
                 .name("John Doe")
@@ -73,16 +75,16 @@ public class OrderServiceImplTest {
                 .build();
 
 
-        List<OrderItemsDto> orderItemsDtoList = List.of(OrderItemsDto.builder()
+        orderItemsDtoList = List.of(OrderItemsDto.builder()
                 .productUuid(productUuid)
                 .build());
 
-        List<OrderItems> orderItemsList = List.of(OrderItems.builder()
+        orderItemsList = List.of(OrderItems.builder()
                 .product(product)
                 .quantity(2).build());
 
 
-        Order order = Order.builder()
+        order = Order.builder()
                 .uuid(UUID.fromString("be1cf063-79a8-4f25-9f04-18a157f5242d"))
                 .orderItems(orderItemsList)
                 .client(client)
@@ -93,8 +95,11 @@ public class OrderServiceImplTest {
                 .clientDocument(client.getDocument())
                 .products(orderItemsDtoList)
                 .extraInformation("informacion extra").build();
+    }
 
 
+    @Test
+    void testCreateOrders() {
         when(clientRepository.findClientByDocument(Mockito.anyString(), Mockito.eq(false))).thenReturn(Optional.of(client));
 
         when(productRepository.findProductByUuid(any(UUID.class))).thenReturn(Optional.of(product));
@@ -111,8 +116,6 @@ public class OrderServiceImplTest {
         verify(productRepository).findProductByUuid(any(UUID.class));
         verify(orderRepository).save(any(Order.class));
         assertNotNull(orderDto);
-
-
 
 
     }
