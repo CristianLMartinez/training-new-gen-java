@@ -59,7 +59,7 @@ class ClientServiceImplTest {
 
         // THEN
         verify(clientRepository).save(client);
-        assertEquals( clientDto.document(), clientReturned.document());
+        assertEquals(clientDto.document(), clientReturned.document());
 
     }
 
@@ -93,7 +93,7 @@ class ClientServiceImplTest {
 
         Client mockClient = new Client();
 
-        when(clientRepository.findClientByDocument(anyString(),anyBoolean())).thenReturn(Optional.of(mockClient));
+        when(clientRepository.findClientByDocument(anyString(), anyBoolean())).thenReturn(Optional.of(mockClient));
 
         ClientDto clientDto = clientService.getClientByDocument(document, isDeleted);
 
@@ -117,29 +117,35 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void testUpdateClient_Success() {
-        // Arrange
+    void testUpdateClientSuccess() {
         String document = "CC-123456";
-        ClientDto requestBody = new ClientDto.ClientDtoBuilder()
+        ClientDto requestBody = ClientDto.builder()
                 .name("John Doe")
                 .email("john.doe@example.com")
                 .phone("123456789")
                 .deliveryAddress("123 Main St")
                 .build();
 
+        Client existingClient = Client.builder()
+                .name("Old Name")
+                .email("old.email@example.com")
+                .phone("987654321")
+                .deliveryAddress("Old Address")
+                .isDeleted(false)
+                .build();
 
-        Client existingClient = new Client(); // Simula un cliente existente
-        existingClient.setName("Old Name"); // Cambiamos los valores para que haya diferencia con el DTO
-
-        // Simulamos la recuperación y la verificación de cambios
+        // Simulamos la recuperación del cliente
+        when(clientRepository.findClientByDocument(anyString(), false)).thenReturn(Optional.of(existingClient));
         when(clientService.validateAndRetrieveClientByDocument(document, false)).thenReturn(existingClient);
-        when(clientService.hasChanges(existingClient, requestBody)).thenReturn(false); // Significa que hay cambios
 
-        // Act
-        clientServiceImpl.updateClient(document, requestBody);
+        // Simulamos que se detectan cambios (hasChanges() devuelve true)
+        when(clientService.hasChanges(existingClient, requestBody)).thenReturn(true);
 
+        // Act: actualizamos el cliente
+        clientService.updateClient(document, requestBody);
 
-        // Verificamos que los setters se llamaron correctamente y el cliente fue actualizado
+        // Assert
+        // Verificamos que los datos fueron actualizados correctamente
         assertEquals(requestBody.name(), existingClient.getName());
         assertEquals(requestBody.email(), existingClient.getEmail());
         assertEquals(requestBody.phone(), existingClient.getPhone());
@@ -148,9 +154,6 @@ class ClientServiceImplTest {
         // Verificamos que se llamó al método save del repositorio
         verify(clientRepository, times(1)).save(existingClient);
     }
-
-
-
 
 
 
